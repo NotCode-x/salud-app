@@ -1,0 +1,7 @@
+
+------DB------
+1._Agregar el campo Tipo_Cita en la tabla cita
+2._Agregar el campo Codigo_Medico en la tabla rehabilitacion
+3._Agregar campos de estado en las tablas donde el estado del paciente cambie
+---tabla cita
+---tabla rehabilitacion

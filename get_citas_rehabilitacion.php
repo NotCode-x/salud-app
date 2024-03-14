@@ -1,6 +1,5 @@
 <?php
 
-
 include("cors.php");
 include('connect_db.php');
 

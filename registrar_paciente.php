@@ -28,5 +28,4 @@ if(!$ejecutarConsulta){
     echo true;
 }
 
-
 ?>

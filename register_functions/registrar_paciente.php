@@ -1,8 +1,8 @@
 <?php
 
 
-include("cors.php");
-include('connect_db.php');
+include("../cors.php");
+include('../connect_db.php');
 
 $codigo = $_POST['codigo'];
 $nombre = $_POST['nombre'];

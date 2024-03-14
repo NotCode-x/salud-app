@@ -1,7 +1,7 @@
 <?php
 
-include("cors.php");
-include('connect_db.php');
+include("../cors.php");
+include('../connect_db.php');
 include('functions/functions.php');
 
 

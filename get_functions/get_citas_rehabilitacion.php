@@ -1,11 +1,10 @@
 <?php
 
-
-include("cors.php");
-include('connect_db.php');
+include("../cors.php");
+include('../connect_db.php');
 
 //hacemos una consulta para obtener todos los datos de la tabla pacientes
-$allCitasRehabilitacion = "SELECT * FROM cita, paciente WHERE cita.Tipo_Cita = 'Consultorio' AND cita.Cod_Paciente = paciente.Codigo_paciente";
+$allCitasRehabilitacion = "SELECT * FROM cita, paciente WHERE cita.Tipo_Cita = 'Rehabilitación' AND cita.Cod_Paciente = paciente.Codigo_paciente";
 
 $ejecutarConsulta = mysqli_query( $connection, $allCitasRehabilitacion );
 
@@ -15,7 +14,7 @@ $json = array();
 	while($row = mysqli_fetch_array($ejecutarConsulta)){
 
 		$json[] = array(
-            
+
 			'codigoPaciente' => $row['Codigo_paciente'],
 			'nombrePaciente' => $row['Nombre_Paciente'],
             'apellidosPaciente' => $row['Apellidos_Paciente'],

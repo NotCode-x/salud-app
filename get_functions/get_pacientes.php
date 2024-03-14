@@ -1,11 +1,11 @@
 <?php
 
 
-include("cors.php");
-include('connect_db.php');
+include("../cors.php");
+include('../connect_db.php');
 
 //hacemos una consulta para obtener todos los datos de la tabla pacientes
-$allPacientes = "SELECT * FROM rehabilitacion WHERE Estado = 'En proceso'";
+$allPacientes = "SELECT * FROM paciente";
 
 $ejecutarConsulta = mysqli_query( $connection, $allPacientes );
 

@@ -1,8 +1,8 @@
 <?php
 
 
-include("cors.php");
-include('connect_db.php');
+include("../cors.php");
+include('../connect_db.php');
 
 //hacemos una consulta para obtener todos los datos de la tabla pacientes
 $allPacientes = "SELECT consultas.*, paciente.Nombre_Paciente AS Nombre, paciente.Codigo_paciente AS Codigo_paciente, paciente.Apellidos_Paciente AS Apellidos_Paciente

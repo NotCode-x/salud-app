@@ -1,11 +1,11 @@
 <?php
 
 
-include("cors.php");
-include('connect_db.php');
+include("../cors.php");
+include('../connect_db.php');
 
 //hacemos una consulta para obtener todos los datos de la tabla medico
-$allMedicos = "SELECT * FROM medico";
+$allMedicos = "SELECT * FROM tipo_consulta";
 
 $ejecutarConsulta = mysqli_query( $connection, $allMedicos );
 
@@ -15,10 +15,10 @@ $json = array();
 	while($row = mysqli_fetch_array($ejecutarConsulta)){
 
 		$json[] = array(
+            
+			'codigoTipoConsulta' => $row['Codigo_Tipo_Consulta'],
+			'descripcion' => $row['Descripcion'],
 
-			'codigoMedico' => $row['Codigo_Medico'],
-			'nombreMedico' => $row['Nombre_Medico'],
-            'apellidosMedico' => $row['Apellidos_Medico'],
 		);
 	}
 

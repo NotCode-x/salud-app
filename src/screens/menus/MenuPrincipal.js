@@ -71,7 +71,7 @@ export default function MenuPrincipal({route, navigation}) {
       }}
       screenOptions={({ route }) => ({
         drawerIcon: ({ focused, color, size }) => {
-          if (route.name == "Pacientes") {
+          if (route.name == "Admisión") {
             return (
               <Entypo
                 name={focused ? "text-document" : "text-document"}
@@ -163,7 +163,7 @@ export default function MenuPrincipal({route, navigation}) {
         options={{}}
       />
       <Drawer.Screen
-        name="Pacientes"
+        name="Admisión"
         component={PantallaPacientes}
         options={{}}
       />

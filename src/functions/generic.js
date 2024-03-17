@@ -23,9 +23,19 @@ export const checkIfPassword = (arr, pwd) => {
     arr.forEach( val => {
         if(val.codigoPersonal == pwd){
             cod = val.codigoPersonal
-            n++
+            n=1
         }
     })
 
     return {n, cod};
+}
+
+export const searchName = (arr, text) => {
+    
+    let res = arr.filter( val => val.nombrePaciente.toLowerCase().includes(text.toLowerCase()))
+
+    //console.log(res)
+
+    return res
+    
 }

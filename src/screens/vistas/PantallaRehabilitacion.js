@@ -85,6 +85,10 @@ export default function PantallaRehabilitacion({ route, navigation }) {
         <FlatList
           data={citasRehabilitacion}
           style={stylesScreenPacientes.flatListStyle}
+          contentContainerStyle={{
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}
           renderItem={({ item, index }) => {
             return (
               <TouchableOpacity style={stylesScreenPacientes.ListItemView} onPress={() => {
@@ -104,11 +108,29 @@ export default function PantallaRehabilitacion({ route, navigation }) {
                   }
                 ])
               }}>
+                <View style={stylesScreenPacientes.ListItemView}>
                 <View style={stylesScreenPacientes.nameItem}>
-                <Text style={stylesScreenPacientes.textItem}>{item.codigoPaciente}</Text>
-                  <Text style={stylesScreenPacientes.textItem}>{item.nombrePaciente}</Text>
-                  <Text style={stylesScreenPacientes.textItem}>{item.apellidosPaciente}</Text>
+                  <Text style={stylesScreenPacientes.textItem}>
+                    {item.nombrePaciente}
+                  </Text>
+                  <Text style={stylesScreenPacientes.textApellido}>
+                    {item.apellidosPaciente}
+                  </Text>
                 </View>
+                <View style={stylesComunes.containerDosBotones}>
+                  <TouchableOpacity style={stylesComunes.botonEditar}>
+                    <Text style={stylesComunes.textoBotons}>Editar</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                  style={stylesComunes.botonAccess}
+                    onPress={() =>
+                      navigation.navigate("PantallaRevisarCita", item)
+                    }
+                  >
+                    <Text style={stylesComunes.textoBotons}>Concertar cita</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
               </TouchableOpacity>
             );
           }}

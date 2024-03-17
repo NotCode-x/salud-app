@@ -8,7 +8,8 @@ import {
   TouchableOpacity,
   View,
   ScrollView,
-  Alert
+  Alert,
+  SafeAreaView
 } from "react-native";
 
 //importamos las funciones genericas
@@ -50,108 +51,165 @@ export default function FormRegistrarPaciente({ route, navigation }) {
 
   const [datosPaciente, setDatosPaciente] = useState({
     codigo: codPaciente,
-    nombre: '',
-    apellidos: '',
-    fechaNacimiento: '',
-    sexo: '',
-    peso: '',
-    altura: '',
-    telefono: '',
-    direccion: '',
-    alergia: '',
-    nacionalidad: ''
-  })
+    nombre: "",
+    apellidos: "",
+    fechaNacimiento: "",
+    sexo: "",
+    peso: "",
+    altura: "",
+    telefono: "",
+    direccion: "",
+    alergia: "",
+    nacionalidad: "",
+  });
 
-  const actualizarCampos = (name, value) => setDatosPaciente({...datosPaciente, [name]: value})
-  
+  const actualizarCampos = (name, value) =>
+    setDatosPaciente({ ...datosPaciente, [name]: value });
+
   return (
     <View style={stylesFormRegistrarPaciente.container}>
       <StatusBar style="light" backgroundColor={colors.AppColor} />
-      <View style={stylesFormRegistrarPaciente.containerScroll}>
+      <SafeAreaView>
         <ScrollView
           scrollEnabled={true}
           style={stylesFormRegistrarPaciente.containerForm}
           contentContainerStyle={{
-            flex: 1,
             justifyContent: "center",
             alignItems: "center",
           }}
         >
+          <Text style={stylesFormRegistrarPaciente.fieldText}>Nombre</Text>
           <TextInput
             style={stylesFormRegistrarPaciente.inputText}
             placeholder="Nombre del paciente"
-            onChangeText={(text) => actualizarCampos('nombre', text)}
+            onChangeText={(text) => actualizarCampos("nombre", text)}
           />
+          <Text style={stylesFormRegistrarPaciente.fieldText}>Apellidos</Text>
           <TextInput
             style={stylesFormRegistrarPaciente.inputText}
             placeholder="Apellidos del paciente"
-            onChangeText={(text) => actualizarCampos('apellidos', text)}
+            onChangeText={(text) => actualizarCampos("apellidos", text)}
           />
-          <TextInput
-            style={stylesFormRegistrarPaciente.inputText}
-            placeholder="Fecha de nacimiento"
-            onChangeText={(text) => actualizarCampos('fechaNacimiento', text)}
-          />
-          <TextInput
-            style={stylesFormRegistrarPaciente.inputText}
-            placeholder="Sexo del paciente"
-            onChangeText={(text) => actualizarCampos('sexo', text)}
-          />
-          <TextInput
-            style={stylesFormRegistrarPaciente.inputText}
-            keyboardType="number-pad"
-            placeholder="Peso del paciente"
-            onChangeText={(text) => actualizarCampos('peso', text)}
-          />
-          <TextInput
-            style={stylesFormRegistrarPaciente.inputText}
-            keyboardType="number-pad"
-            placeholder="Altura del paciente"
-            onChangeText={(text) => actualizarCampos('altura', text)}
-          />
-          <TextInput
-            style={stylesFormRegistrarPaciente.inputText}
-            keyboardType="phone-pad"
-            placeholder="Teléfono del paciente"
-            onChangeText={(text) => actualizarCampos('telefono', text)}
-          />
-          <TextInput
-            style={stylesFormRegistrarPaciente.inputText}
-            placeholder="Dirección del paciente"
-            onChangeText={(text) => actualizarCampos('direccion', text)}
-          />
+          <View
+            style={{
+              width: "100%",
+              flexDirection: "row-reverse",
+              justifyContent: "space-around",
+            }}
+          >
+            <View style={stylesFormRegistrarPaciente.containerCuatroText}>
+              <Text style={stylesFormRegistrarPaciente.fieldText}>
+                Fecha de nacimiento
+              </Text>
+              <TextInput
+                style={stylesFormRegistrarPaciente.inputCuatroText}
+                placeholder="Fecha de nacimiento"
+                onChangeText={(text) =>
+                  actualizarCampos("fechaNacimiento", text)
+                }
+              />
+            </View>
+            <View style={stylesFormRegistrarPaciente.containerCuatroText}>
+              <Text style={stylesFormRegistrarPaciente.fieldText}>Sexo</Text>
+              <TextInput
+                style={stylesFormRegistrarPaciente.inputCuatroText}
+                placeholder="Sexo del paciente"
+                onChangeText={(text) => actualizarCampos("sexo", text)}
+              />
+            </View>
+          </View>
+
+          <View
+            style={{
+              width: "100%",
+              flexDirection: "row-reverse",
+              justifyContent: "space-around",
+            }}
+          >
+            <View style={stylesFormRegistrarPaciente.containerCuatroText}>
+              <Text style={stylesFormRegistrarPaciente.fieldText}>Peso</Text>
+              <TextInput
+                style={stylesFormRegistrarPaciente.inputCuatroText}
+                keyboardType="number-pad"
+                placeholder="Peso del paciente"
+                onChangeText={(text) => actualizarCampos("peso", text)}
+              />
+            </View>
+            <View style={stylesFormRegistrarPaciente.containerCuatroText}>
+              <Text style={stylesFormRegistrarPaciente.fieldText}>Altura</Text>
+              <TextInput
+                style={stylesFormRegistrarPaciente.inputCuatroText}
+                keyboardType="number-pad"
+                placeholder="Altura del paciente"
+                onChangeText={(text) => actualizarCampos("altura", text)}
+              />
+            </View>
+          </View>
+
+          <View
+            style={{
+              width: "100%",
+              flexDirection: "row-reverse",
+              justifyContent: "space-around",
+            }}
+          >
+            <View style={stylesFormRegistrarPaciente.containerCuatroText}>
+              <Text style={stylesFormRegistrarPaciente.fieldText}>Teléfono</Text>
+              <TextInput
+                style={stylesFormRegistrarPaciente.inputCuatroText}
+                keyboardType="number-pad"
+                placeholder="Teléfono del paciente"
+                onChangeText={(text) => actualizarCampos("telefono", text)}
+              />
+            </View>
+            <View style={stylesFormRegistrarPaciente.containerCuatroText}>
+              <Text style={stylesFormRegistrarPaciente.fieldText}>Dirección</Text>
+              <TextInput
+                style={stylesFormRegistrarPaciente.inputCuatroText}
+                keyboardType="number-pad"
+                placeholder="Dirección del paciente"
+                onChangeText={(text) => actualizarCampos("direccion", text)}
+              />
+            </View>
+          </View>
+
+          <Text style={stylesFormRegistrarPaciente.fieldText}>Alergias</Text>
           <TextInput
             style={stylesFormRegistrarPaciente.inputText}
             placeholder="Alergias del paciente"
-            onChangeText={(text) => actualizarCampos('alergia', text)}
+            onChangeText={(text) => actualizarCampos("alergia", text)}
           />
+          <Text style={stylesFormRegistrarPaciente.fieldText}>Nacionalidad</Text>
           <TextInput
             style={stylesFormRegistrarPaciente.inputText}
             placeholder="Nacionalidad"
-            onChangeText={(text) => actualizarCampos('nacionalidad', text)}
+            onChangeText={(text) => actualizarCampos("nacionalidad", text)}
           />
 
-          <TouchableOpacity style={stylesFormRegistrarPaciente.buttonRegister} onPress={async() => {
-            console.log("Datos a registrar: ", datosPaciente)
-             let res = checkFormFields(datosPaciente)
+          <TouchableOpacity
+            style={stylesFormRegistrarPaciente.buttonRegister}
+            onPress={async () => {
+              console.log("Datos a registrar: ", datosPaciente);
+              let res = checkFormFields(datosPaciente);
 
-             if(res > 0){
-                Alert.alert('Error', `Hay ${res} campos vacíos`)
-             }else{
-                let res = await registrarPaciente(datosPaciente)
+              if (res > 0) {
+                Alert.alert("Error", `Hay ${res} campos vacíos`);
+              } else {
+                let res = await registrarPaciente(datosPaciente);
 
-                if(res === 1){
-                  navigation.goBack()
-                  Alert.alert("Success", "Paciente registrado con éxito!")
-                }else{
-                  Alert.alert("Failed", "Paciente no registrado!")
+                if (res === 1) {
+                  navigation.goBack();
+                  Alert.alert("Success", "Paciente registrado con éxito!");
+                } else {
+                  Alert.alert("Failed", "Paciente no registrado!");
                 }
-             }
-          }}>
-            <Text style={{ color: "#fff" }}>Registrar paciente</Text>
+              }
+            }}
+          >
+            <Text style={{ color: "#fff" }}>Guardar</Text>
           </TouchableOpacity>
         </ScrollView>
-      </View>
+      </SafeAreaView>
     </View>
   );
 }

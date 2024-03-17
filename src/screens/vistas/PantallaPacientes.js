@@ -11,7 +11,7 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-  Modal
+  Modal,
 } from "react-native";
 
 //Importamos iconos que nos proporciona el framework expo con el modulo @expo/vector-icons
@@ -24,23 +24,26 @@ import {
   AntDesign,
   MaterialIcons,
 } from "@expo/vector-icons";
-
+//importamos las funciones genericas
+import { searchName } from "../../functions/generic";
 //importamos la funcion para mostrar todos los pacientes
 import { GetAllPatients } from "../../functions/GetFunctions";
 
 //importamos los estilos de esta pantalla
-import { stylesScreenPacientes } from "../../styles/styles";
+import { stylesScreenPacientes, stylesComunes } from "../../styles/styles";
 
 //importamos axios para probar la conexión con la base de datos para testear
 import axios from "axios";
 
 export default function PantallaPacientes({ route, navigation }) {
-  //creamos una variable que actualizará su estado para saber si nos hemos conectado a la db
-  //con la función setConnection recuperamos o guardamos el resultado de la petición con axios en cargarFnc
-  const [connection, setConnection] = useState("");
-
   //variable para almacenar todos los pacientes que responde el backend
   const [pacientes, setPacientes] = useState("");
+
+  //variable para almacenar el valor que se busca
+  const [buscar, setBuscar] = useState("");
+
+  //variable que almacena el resultado de la búsqueda
+  const [resultadosBusqueda, setResultados] = useState("");
 
   /**
    * useEffect es un método de react que se ejecuta siempre que se carga  o refreca una vista
@@ -51,11 +54,6 @@ export default function PantallaPacientes({ route, navigation }) {
     const cargarFnc = async () => {
       let res = await GetAllPatients();
       setPacientes(res);
-      //let req = await axios.get("http://192.168.0.105/salud-backend/index.php")
-
-      //mostramos el resultado de la petición con axios en consola
-      //setConnection(req.data)
-      //console.log("Res: ", req.data)
     };
 
     //ejecutamos la función cargarFnc() en useEffect para que sea lo primero en ejecutarse al cargarse la vista
@@ -70,6 +68,14 @@ export default function PantallaPacientes({ route, navigation }) {
         <TextInput
           style={stylesScreenPacientes.inputSearch}
           placeholder="Buscar paciente..."
+          onChangeText={(text) => {
+            //variable para almacenar el resultado de la busqueda
+            let res = searchName(pacientes, text);
+
+            console.log("Resultados: ", res);
+
+            setResultados(res);
+          }}
         />
         <TouchableOpacity
           style={stylesScreenPacientes.buttonAdd}
@@ -82,19 +88,64 @@ export default function PantallaPacientes({ route, navigation }) {
         </TouchableOpacity>
       </View>
 
-      {pacientes == "" ? (
-        <Text>No hay pacientes registrados</Text>
-      ) : (
+      {resultadosBusqueda == "" ? (
         <FlatList
           data={pacientes}
           style={stylesScreenPacientes.flatListStyle}
+          contentContainerStyle={{
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}
           renderItem={({ item, index }) => {
             return (
-              <TouchableOpacity style={stylesScreenPacientes.ListItemView} onPress={() => navigation.navigate('PantallaRevisarCita', item)}>
-                <Text style={stylesScreenPacientes.idItem}>{item.idPaciente}.</Text>
+              <View style={stylesScreenPacientes.ListItemView}>
                 <View style={stylesScreenPacientes.nameItem}>
-                  <Text style={stylesScreenPacientes.textItem}>{item.nombrePaciente}</Text>
-                  <Text style={stylesScreenPacientes.textItem}>{item.apellidosPaciente}</Text>
+                  <Text style={stylesScreenPacientes.textItem}>
+                    {item.nombrePaciente}
+                  </Text>
+                  <Text style={stylesScreenPacientes.textApellido}>
+                    {item.apellidosPaciente}
+                  </Text>
+                </View>
+                <View style={stylesComunes.containerDosBotones}>
+                  <TouchableOpacity style={stylesComunes.botonEditar}>
+                    <Text style={stylesComunes.textoBotons}>Editar</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                  style={stylesComunes.botonAccess}
+                    onPress={() =>
+                      navigation.navigate("PantallaRevisarCita", item)
+                    }
+                  >
+                    <Text style={stylesComunes.textoBotons}>Concertar cita</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            );
+          }}
+          numColumns={1}
+          keyExtractor={(item, index) => index.toString()}
+        />
+      ) : (
+        <FlatList
+          data={resultadosBusqueda}
+          style={stylesScreenPacientes.flatListStyle}
+          renderItem={({ item, index }) => {
+            return (
+              <TouchableOpacity
+                style={stylesScreenPacientes.ListItemView}
+                onPress={() => navigation.navigate("PantallaRevisarCita", item)}
+              >
+                <Text style={stylesScreenPacientes.idItem}>
+                  {item.idPaciente}.
+                </Text>
+                <View style={stylesScreenPacientes.nameItem}>
+                  <Text style={stylesScreenPacientes.textItem}>
+                    {item.nombrePaciente}
+                  </Text>
+                  <Text style={stylesScreenPacientes.textItem}>
+                    {item.apellidosPaciente}
+                  </Text>
                 </View>
               </TouchableOpacity>
             );

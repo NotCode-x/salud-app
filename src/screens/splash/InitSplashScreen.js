@@ -11,7 +11,7 @@ import { stylesSplashInit } from '../../styles/styles';
 //importamos el módulo que nos permite guardar datos en la memoria del dispositivo para la app
 
 /**
- * Este módulo se usará para guardar la ip del servidor local para hacer pruebas
+ * Este módulo se usará para guardar la ip del servidor local en la memoria cache de la app, para hacer pruebas
  * esto en caso de que no se aloje la aplicación de backend en la nube
  */
 import * as SecureStore from 'expo-secure-store';
@@ -50,22 +50,28 @@ export default function InitSplashScreen({route, navigation}) {
 
     //Esta función verifica la conexión a la base de datos gestion_hospitalaria
     const cargarFnc = async() => {
-      let req = await axios.get("http://192.168.43.9/salud-backend/index.php")
-      
-      //mostramos el resultado de la petición con axios en consola
-      setConnection(req.data)
+      let ipCache = await SecureStore.getItemAsync("ipLocal");
 
-      if(req.data === 1){
-
-        //si nos conectamos a la db entonces navegamos al menú principal
-        navigation.navigate('MenuPrincipal')
+      if(ipCache != ''){
+        conexionLocal(ipCache)
       }
-      console.log("Res: ", req.data)
     }
 
     //Ejecutamos la función cargarFnc() en useEffect para que sea lo primero en ejecutarse al cargarse la vista
     cargarFnc()
   })
+
+  React.useLayoutEffect(() => {
+    const unsubscribe = navigation.addListener("focus", async () => {
+      let ipCache = await SecureStore.getItemAsync("ipLocal");
+
+      if(ipCache != ''){
+        conexionLocal(ipCache)
+      }
+    });
+
+    return unsubscribe;
+  }, []);
   
   return (
     <View style={stylesSplashInit.container}>

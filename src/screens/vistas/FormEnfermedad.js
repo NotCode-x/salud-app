@@ -14,13 +14,13 @@ import {
 //importamos las funciones genericas
 import { checkFormFields, checkIfPassword } from "../../functions/generic";
 
-//importamos las funciones post para actualizar campos
-import { actualizarConsultaPaciente } from "../../functions/UpdateFunctions";
+//importamos las funciones post
+import { registrarEnfermedad } from "../../functions/PostFunctions";
 
 import { GetPersonalSanitario } from "../../functions/GetFunctions";
 
 //importamos los estilos para esta pantalla
-import { stylesFormConsultorio } from "../../styles/styles";
+import { stylesFormRegistrarPaciente } from "../../styles/styles";
 
 /**
  * Para generar códigos de paciente aleatorios utilizaremos el módulo uuidv4
@@ -32,7 +32,6 @@ import "react-native-get-random-values";
 import { v4 as uuidv4 } from "uuid";
 
 //Importamos iconos que nos proporciona el framework expo con el modulo @expo/vector-icons
-
 import {
   Ionicons,
   Entypo,
@@ -42,14 +41,13 @@ import {
   AntDesign,
   MaterialIcons,
 } from "@expo/vector-icons";
-
 import { colors } from "../../styles/colors";
 
 //creamos el componente del formulario de registro del paciente al cual llamamos FormRegistrarPaciente
 //Esta es la pantalla del formulario para paciente nuevos
 
-export default function FormConsultorio({ route, navigation }) {
-  //recibimos los parametros que se han traspado de la pantalla de consultas a la pantalla del formulario
+export default function FormEnfermedad({ route, navigation }) {
+  //recibimos los parametros que se han traspado de la pantalla de rehabilitacion a la pantalla del formulario
   const { numeroConsulta, diagnosticoConsulta, pruebasLaboratorio } =
     route.params;
 
@@ -61,14 +59,17 @@ export default function FormConsultorio({ route, navigation }) {
 
   const [password, setPassword] = useState("");
 
-  const [datosConsulta, setDatosConsulta] = useState({
-    idConsulta: numeroConsulta,
-    diagnosticoConsulta: diagnosticoConsulta,
-    pruebasLaboratorio: pruebasLaboratorio
+  const [datosEnfermedad, setDatosEnfermedad] = useState({
+    nombre: "",
+    tipo: "",
+    sintomas: "",
+    descripcion: "",
+    id: numeroConsulta,
+    receta: ''
   });
 
   const actualizarCampos = (name, value) =>
-    setDatosConsulta({ ...datosConsulta, [name]: value });
+    setDatosEnfermedad({ ...datosEnfermedad, [name]: value });
 
   useEffect(() => {
     const cargarFnc = async () => {
@@ -82,57 +83,75 @@ export default function FormConsultorio({ route, navigation }) {
   }, []);
 
   return (
-    <View style={stylesFormConsultorio.container}>
+    <View style={stylesFormRegistrarPaciente.container}>
       <StatusBar style="light" backgroundColor={colors.AppColor} />
-      <View style={stylesFormConsultorio.containerScroll}>
+      <View style={stylesFormRegistrarPaciente.containerScroll}>
         <ScrollView
           scrollEnabled={true}
-          style={stylesFormConsultorio.containerForm}
+          style={stylesFormRegistrarPaciente.containerForm}
           contentContainerStyle={{
             flex: 1,
             justifyContent: "center",
             alignItems: "center",
           }}
         >
-          <Text style={stylesFormConsultorio.fieldText}>Diagnostico</Text>
+          <Text style={stylesFormRegistrarPaciente.fieldText}>
+            Nombre de la enfermedad
+          </Text>
           <TextInput
-            style={stylesFormConsultorio.inputText}
-            multiline={true}
-            numberOfLines={4}
-            placeholder="Dar diagnóstico..........................................."
-            onChangeText={(text) =>
-              actualizarCampos("diagnosticoConsulta", text)
-            }
+            style={stylesFormRegistrarPaciente.inputText}
+            placeholder="Nombre de la enfermedad"
+            onChangeText={(text) => actualizarCampos("nombre", text)}
+          />
+          <Text style={stylesFormRegistrarPaciente.fieldText}>
+            Tipo de enfermedad
+          </Text>
+          <TextInput
+            style={stylesFormRegistrarPaciente.inputText}
+            placeholder="Tipo de enfermedad"
+            onChangeText={(text) => actualizarCampos("tipo", text)}
           />
 
-            <Text style={stylesFormConsultorio.fieldText}>Laboratorio</Text>
+          <Text style={stylesFormRegistrarPaciente.fieldText}>Síntomas</Text>
           <TextInput
-            style={stylesFormConsultorio.inputText}
-            multiline={true}
-            numberOfLines={4}
-            placeholder="Solicitar pruebas de laboratorio........................."
-            onChangeText={(text) =>
-              actualizarCampos("pruebasLaboratorio", text)
-            }
+            style={stylesFormRegistrarPaciente.inputDescripcion}
+            placeholder="Síntomas..................."
+            onChangeText={(text) => actualizarCampos("sintomas", text)}
           />
+
+          <Text style={stylesFormRegistrarPaciente.fieldText}>Descripción</Text>
+
+          <TextInput
+            style={stylesFormRegistrarPaciente.inputDescripcion}
+            placeholder="Descripción de la enfermedad...................."
+            onChangeText={(text) => actualizarCampos("descripcion", text)}
+          />
+
+<Text style={stylesFormRegistrarPaciente.fieldText}>Receta</Text>
+
+<TextInput
+  style={stylesFormRegistrarPaciente.inputDescripcion}
+  placeholder="Receta...................."
+  onChangeText={(text) => actualizarCampos("receta", text)}
+/>
+
+
+
           <TouchableOpacity
-            style={stylesFormConsultorio.buttonRegister}
+            style={stylesFormRegistrarPaciente.buttonRegister}
             onPress={async () => {
-              console.log("Datos a registrar: ", datosConsulta);
-              let res = checkFormFields(datosConsulta);
+              console.log("Datos a registrar: ", datosEnfermedad);
+              let res = checkFormFields(datosEnfermedad);
 
               if (res > 0) {
                 Alert.alert("Error", `Hay ${res} campos vacíos`);
               } else {
-
-                let res = await actualizarConsultaPaciente(
-                  datosConsulta
-                );
+                let res = await registrarEnfermedad(datosEnfermedad);
                 if (res === 1) {
                   navigation.goBack();
-                  Alert.alert("Success", "Consulta realizada!");
+                  Alert.alert("Success", "Enfermedad registrada!");
                 } else {
-                  Alert.alert("Failed", "Error al realizar la consulta!");
+                  Alert.alert("Failed", "Error al agregar resultados!");
                 }
               }
             }}

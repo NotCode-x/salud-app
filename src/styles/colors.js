@@ -1,5 +1,5 @@
 
 export const colors = {
-    AppColor: '#1ca9c8',
-    colorProfileDrawer: '#2de3ac'
+    AppColor: '#0d8f83',
+    colorProfileDrawer: '#0d8f83'
 }

@@ -13,6 +13,15 @@ import {
 import * as SecureStore from "expo-secure-store";
 
 /**
+ * Para generar códigos de paciente aleatorios utilizaremos el módulo uuidv4
+ * uuid (Identificador único universal), Un identificador único universal o universally unique identifier (UUID) es un número de 128 bits.
+ * Con este módulo podemos generar códigos de forma aleatoria sin  dificultad.
+ */
+
+import "react-native-get-random-values";
+import { v4 as uuidv4 } from "uuid";
+
+/**
  *
  * Aquí están todas las funciones que hacen las diferentes peticiones POST al backend
  */
@@ -23,7 +32,7 @@ export const registrarPaciente = async (obj) => {
   console.log("Datos a enviar: ", obj);
 
   let req = await axios.post(
-    `http://${localIpServer}/salud-backend/registrar_paciente.php`,
+    `http://${localIpServer}/salud-backend/register_functions/registrar_paciente.php`,
     {
       codigo: obj.codigo,
       nombre: obj.nombre,
@@ -60,7 +69,7 @@ export const registrarCita = async (obj) => {
   console.log("Datos a enviar: ", obj);
 
   let req = await axios.post(
-    `http://${localIpServer}/salud-backend/registrar_cita.php`,
+    `http://${localIpServer}/salud-backend/register_functions/registrar_cita.php`,
     {
       codigoPaciente: obj.codigoPaciente,
       codigoMedico: obj.codigoMedico,
@@ -91,10 +100,10 @@ export const registrarRehabilitacion = async (obj, cod) => {
   console.log("Datos a enviar: ", obj);
 
   let req = await axios.post(
-    `http://${localIpServer}/salud-backend/registrar_rehabilitacion.php`,
+    `http://${localIpServer}/salud-backend/register_functions/registrar_rehabilitacion.php`,
     {
       codigoCita: obj.codigoCita,
-      codigoPaciente:obj.codigoPaciente,
+      codigoPaciente: obj.codigoPaciente,
       codigoMedico: obj.codigoMedico,
       codigoPersonal: cod,
       fechaRealizacion: obj.fechaRealizacion,
@@ -113,6 +122,68 @@ export const registrarRehabilitacion = async (obj, cod) => {
       },
     }
   );
+
+  console.log("XD: ", req.data);
+
+  //validamos la respuesta del servidor
+  if (req.data == 1) {
+    return 1;
+  } else {
+    return 0;
+  }
+};
+
+export const registrarEnfermedad = async (obj) => {
+  //recuperamos el parametro donde se guarda la ip del servidor local
+  let localIpServer = await SecureStore.getItemAsync("ipLocal");
+  console.log("Datos a enviar: ", obj);
+
+  let req = await axios.post(
+    `http://${localIpServer}/salud-backend/register_functions/registrar_enfermedad.php`,
+    {
+      nombre: obj.nombre,
+      tipo: obj.tipo,
+      sintomas: obj.sintomas,
+      descripcion: obj.descripcion,
+      id: obj.id,
+      receta: obj.receta,
+    },
+    {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    }
+  );
+};
+
+export const registrarCompraMedicamento = async (obj, obj1) => {
+  //recuperamos el parametro donde se guarda la ip del servidor local
+  let localIpServer = await SecureStore.getItemAsync("ipLocal");
+
+  let codigoFarmacia = uuidv4().substring(0, 5)
+  //console.log("Datos C: ", obj, obj1);
+
+  let req = await axios.post(
+    `http://${localIpServer}/salud-backend/register_functions/registrar_compra_medicamentos.php`,
+    {
+      nombreMedicina: obj.datosMedicina.n,
+      cantidad: parseInt(obj.cantidad),
+      precioManual: obj.precioManual,
+      nombrePersonal: obj1.data.n,
+      codigoPersonal: obj1.data.c,
+      stock: parseInt(obj.datosMedicina.stock),
+      idMedicamento: obj.datosMedicina.id,
+      precioUnitario: obj.datosMedicina.p,
+      codigoFarmacia: codigoFarmacia.toUpperCase()
+    },
+    {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    }
+  );
+
+  //
 
   console.log("XD: ", req.data);
 

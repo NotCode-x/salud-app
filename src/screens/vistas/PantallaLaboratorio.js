@@ -39,7 +39,7 @@ import { stylesScreenConsultas } from "../../styles/styles";
 //importamos axios para probar la conexión con la base de datos para testear
 import axios from "axios";
 
-export default function PantallaConsultas({ route, navigation }) {
+export default function PantallaLaboratorio({ route, navigation }) {
   //creamos una variable que actualizará su estado para saber si nos hemos conectado a la db
   //con la función setConnection recuperamos o guardamos el resultado de la petición con axios en cargarFnc
   const [connection, setConnection] = useState("");
@@ -91,69 +91,52 @@ export default function PantallaConsultas({ route, navigation }) {
           style={stylesScreenConsultas.flatListStyle}
           renderItem={({ item, index }) => {
             return (
-              item.estadoConsulta == 'En espera' ||  item.estadoConsulta == 'Resultados y análisis' ? (
-                <TouchableOpacity
-            style={stylesScreenConsultas.ListItemView}
-            onPress={() => {
-              //navigation.navigate('PantallaRevisarCita', item)
-              if(item.estadoConsulta == 'En espera'){
-                Alert.alert("Confirmar", "¿Desea ir a la consulta?", [
-                  {
-                    text: "Ir a la consulta",
-                    onPress: () => {
-                      navigation.navigate("FormConsultorio", item);
+                item.estadoConsulta == 'Pruebas y análisis' ? (
+                    <TouchableOpacity
+                style={stylesScreenConsultas.ListItemView}
+                onPress={() => {
+                  //navigation.navigate('PantallaRevisarCita', item)
+                  Alert.alert("Confirmar", "¿Desea ir a la sala de pruebas?", [
+                    {
+                      text: "Sala de pruebas",
+                      onPress: () => {
+                        navigation.navigate("FormLaboratorio", item);
+                      },
                     },
-                  },
-                  {
-                    text: "Cancelar",
-                    onPress: () => {
-                      console.log("nada");
+                    {
+                      text: "Cancelar",
+                      onPress: () => {
+                        console.log("nada");
+                      },
                     },
-                  },
-                ]);
-              }else if(item.estadoConsulta == 'Resultados y análisis'){
-                Alert.alert("Confirmar", "¿Diagnóstico final?", [
-                  {
-                    text: "Diagnóstico final",
-                    onPress: () => {
-                      navigation.navigate("FormEnfermedad", item);
-                    },
-                  },
-                  {
-                    text: "Cancelar",
-                    onPress: () => {
-                      console.log("nada");
-                    },
-                  },
-                ]);
-              }
-            }}
-          >
-            <View style={stylesScreenConsultas.nameItem}>
-              <Text style={stylesScreenConsultas.textItem}>
-                {item.codigoPaciente}
-              </Text>
-              <Text style={stylesScreenConsultas.textItem}>
-                {item.nombrePaciente}
-              </Text>
-              <Text style={stylesScreenConsultas.textItem}>
-                {item.apellidosPaciente}
-              </Text>
-            </View>
-            {
+                  ]);
+                }}
+              >
+                <View style={stylesScreenConsultas.nameItem}>
+                  <Text style={stylesScreenConsultas.textItem}>
+                    {item.codigoPaciente}
+                  </Text>
+                  <Text style={stylesScreenConsultas.textItem}>
+                    {item.nombrePaciente}
+                  </Text>
+                  <Text style={stylesScreenConsultas.textItem}>
+                    {item.apellidosPaciente}
+                  </Text>
+                </View>
+                {
+                  item.estadoPaciente == 'Grave' ? (
+                    <Text style={stylesScreenConsultas.textDescriptionGrave}>
+                    {item.estadoConsulta}
+                  </Text>
+                  ) : (
+                    <Text style={stylesScreenConsultas.textDescriptionNormal}>
+                    {item.estadoConsulta}
+                  </Text>
+                  )
+                }
+              </TouchableOpacity>
+                ) : ''
               
-              item.estadoConsulta == 'En espera' ? (
-                <Text style={stylesScreenConsultas.textDescriptionGrave}>
-                {item.estadoConsulta}
-              </Text>
-              ) : (
-                <Text style={stylesScreenConsultas.textDescriptionNormal}>
-                {item.estadoConsulta}
-              </Text>
-              )
-            }
-          </TouchableOpacity>
-            ) : ''
             );
           }}
           numColumns={1}

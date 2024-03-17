@@ -5,3 +5,24 @@
 3._Agregar campos de estado en las tablas donde el estado del paciente cambie
 ---tabla cita
 ---tabla rehabilitacion
+
+4.tabla consultas he agregado 3 campos
+---Estado_Consulta varchar(50)
+---Estado_Paciente varchar(50)
+---Pruebas_Laboratorio text()
+
+5.tabla laboratio he agregado 3 campos
+---Numero_Consulta int()
+---Resultados_Laboratorio text()
+---Pruebas text()
+
+6.tabla enfermedad he agregado 1 campo
+---Numero_Consulta int()
+
+ESTADOS DE LA CONSULTA
+---------------------------------------------
+-En espera: tiene la cita pero no se le ha atendido todavia 
+-En proceso: cuando ya se le van a realizar las pruebas en el laboratorio
+-Laboratorio: en proceso de realización de las pruebas
+-Resultados y análisis: cuando ya se le va a dar el diagnóstico final, es decir, le van a decor que enfermedad tiene
+y le daran la medicación recomendable.

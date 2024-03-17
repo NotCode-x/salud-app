@@ -13,6 +13,7 @@ import {
   FontAwesome5,
   AntDesign,
   MaterialIcons,
+  Fontisto
 } from "@expo/vector-icons";
 
 //Este es un componente que nos permite crear navegación entre las pantallas de la app
@@ -34,6 +35,9 @@ import PantallaCitas from "../vistas/PantallaCitas";
 import PantallaAjustes from "../vistas/PantallaAjustes";
 import PantallaRehabilitacion from "../vistas/PantallaRehabilitacion";
 import PantallaVacunacion from "../vistas/PantallaVacunacion";
+import PantallaLaboratorio from "../vistas/PantallaLaboratorio";
+import PantallaFarmacia from "../vistas/PantallaFarmacia";
+import PantallaHome from "../vistas/PantallaHome";
 
 //creamos una variable 'Tab' para almacenar el componente createBottomTabNavigator
 const Tab = createBottomTabNavigator();
@@ -69,13 +73,23 @@ export default function MenuPrincipal({route, navigation}) {
         drawerIcon: ({ focused, color, size }) => {
           if (route.name == "Pacientes") {
             return (
-              <FontAwesome5
-                name={focused ? "hospital" : "hospital"}
+              <Entypo
+                name={focused ? "text-document" : "text-document"}
                 size={size}
                 color={color}
               />
             );
-          } else if (route.name == "Consultas") {
+          }
+          else if (route.name == "Home") {
+            return (
+              <FontAwesome5
+              name={focused ? "hospital" : "hospital"}
+                size={size}
+                color={color}
+              />
+            );
+          }
+          else if (route.name == "Consultas") {
             return (
               <FontAwesome5
                 name={focused ? "book-medical" : "book-medical"}
@@ -105,11 +119,27 @@ export default function MenuPrincipal({route, navigation}) {
               <FontAwesome5 name={focused ? "hand-holding-medical" : "hand-holding-medical"} size={size}
               color={color} />
             );
+          }else if (route.name == "Farmacia") {
+            return (
+              <FontAwesome5
+                name={focused ? "pills" : "pills"}
+                size={size}
+                color={color}
+              />
+            );
           }
           else if (route.name == "Vacunación") {
             return (
-              <MaterialIcons
-                name={focused ? "health-and-safety" : "health-and-safety"}
+              <Fontisto
+                name={focused ? "injection-syringe" : "injection-syringe"}
+                size={size}
+                color={color}
+              />
+            );
+          }else if (route.name == "Laboratorio") {
+            return (
+              <Fontisto
+                name={focused ? "test-tube" : "test-tube"}
                 size={size}
                 color={color}
               />
@@ -128,12 +158,19 @@ export default function MenuPrincipal({route, navigation}) {
       })}
     >
       <Drawer.Screen
+        name="Home"
+        component={PantallaHome}
+        options={{}}
+      />
+      <Drawer.Screen
         name="Pacientes"
         component={PantallaPacientes}
         options={{}}
       />
       <Drawer.Screen name="Consultas" component={PantallaConsultas} />
       <Drawer.Screen name="Rehabilitación" component={PantallaRehabilitacion} />
+      <Drawer.Screen name="Laboratorio" component={PantallaLaboratorio} />
+      <Drawer.Screen name="Farmacia" component={PantallaFarmacia} />
       <Drawer.Screen name="Vacunación" component={PantallaVacunacion} />
       <Drawer.Screen name="Ajustes" component={PantallaAjustes} />
     </Drawer.Navigator>

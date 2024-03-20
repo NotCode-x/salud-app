@@ -130,6 +130,7 @@ const PantallaRevisarCita = ({ route, navigation }) => {
            {tiposDeCita.map( (item, index) => {
             return(
               <Picker.Item
+              key={index}
                   label={item.tipoCita}
                   value={item.tipoCita}
                 />

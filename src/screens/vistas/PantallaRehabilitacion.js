@@ -76,18 +76,9 @@ export default function PantallaRehabilitacion({ route, navigation }) {
 
       <View style={stylesScreenPacientes.containerSearch}>
         <TextInput
-          style={stylesScreenPacientes.inputSearch}
+          style={stylesScreenPacientes.inputSearchDos}
           placeholder="Buscar paciente..."
         />
-        <TouchableOpacity
-          style={stylesScreenPacientes.buttonAdd}
-          onPress={() => {
-            //En esta linea lo que hacemos es navegar a otra pantalla (la pantalla del formulario de registro) utilizando el objeto navigation y su método navigate
-            navigation.navigate("FormRegistrarPaciente");
-          }}
-        >
-          <Ionicons name="person-add" size={30} />
-        </TouchableOpacity>
       </View>
 
       {citasRehabilitacion == "" ? (

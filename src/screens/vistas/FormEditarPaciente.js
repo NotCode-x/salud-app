@@ -143,7 +143,7 @@ export default function FormEditarPaciente({ route, navigation }) {
               >
                 {tiposPaciente.map((item, index) => {
                   return (
-                    <Picker.Item label={item.descripcion + " (" + item.codigo + ")"} value={item.codigo} />
+                    <Picker.Item key={index} label={item.descripcion + " (" + item.codigo + ")"} value={item.codigo} />
                   );
                 })}
               </Picker>

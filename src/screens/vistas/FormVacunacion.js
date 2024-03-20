@@ -58,8 +58,13 @@ import { colors } from "../../styles/colors";
 //Esta es la pantalla del formulario para paciente nuevos
 
 export default function FormVacunacion({ route, navigation }) {
-  const { apellidosPaciente, nombrePaciente, codigoPaciente, direccion, telefono } =
-    route.params;
+  const {
+    apellidosPaciente,
+    nombrePaciente,
+    codigoPaciente,
+    direccion,
+    telefono,
+  } = route.params;
 
   //variable que almacena la contraseña del personal responsable
   const [pwd, setPwd] = useState("");
@@ -79,7 +84,7 @@ export default function FormVacunacion({ route, navigation }) {
     nombreMadre: "Opcional",
     direccion: direccion,
     telefono: telefono,
-    data: ''
+    data: "",
   });
 
   const cambioDato = (name, value) =>
@@ -107,7 +112,14 @@ export default function FormVacunacion({ route, navigation }) {
         backgroundColor: "#fff",
       }}
     >
-      <ScrollView showsVerticalScrollIndicator={false} style={{ padding: 20 }}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={{ padding: 20 }}
+        contentContainerStyle={{
+          justifyContent: "center",
+          alignItems: 'center'
+        }}
+      >
         <View
           style={{
             width: "100%",
@@ -131,7 +143,7 @@ export default function FormVacunacion({ route, navigation }) {
         </View>
 
         {antigenos != "" ? (
-          <View style={{ marginBottom: 15 }}>
+          <View style={{ marginBottom: 15, padding: 10, width: '100%' }}>
             <Text style={{ fontSize: 20, fontWeight: "700" }}>Antígeno</Text>
             <Picker
               selectedValue={datosVacunacion.vacunas}
@@ -157,12 +169,23 @@ export default function FormVacunacion({ route, navigation }) {
         )}
 
         {personalSanitario != "" ? (
-          <View style={{ marginBottom: 15 }}>
-            <Text style={{ fontSize: 20, fontWeight: "700" }}>Auxiliar: <Text style={{color: colors.AppColor, fontWeight: 'normal', fontSize: 16}}>{datosVacunacion.data.n}</Text></Text>
+          <View style={{ marginBottom: 15, padding: 10, width: '100%' }}>
+            <Text style={{ fontSize: 20, fontWeight: "700" }}>
+              Auxiliar:{" "}
+              <Text
+                style={{
+                  color: colors.AppColor,
+                  fontWeight: "normal",
+                  fontSize: 16,
+                }}
+              >
+                {datosVacunacion.data.n}
+              </Text>
+            </Text>
             <Picker
               selectedValue={datosVacunacion.data.n}
               onValueChange={(itemValue, itemIndex) => {
-                console.log('personal: ', itemValue)
+                console.log("personal: ", itemValue);
                 cambioDato("data", itemValue);
               }}
               style={stylesComunes.stylesPicker}
@@ -238,31 +261,29 @@ export default function FormVacunacion({ route, navigation }) {
               backgroundColor: colors.AppColor,
               borderRadius: 10,
             }}
-
             onPress={async () => {
-                let {n, cod} = await checkIfPassword(personalSanitario, pwd)
+              let { n, cod } = await checkIfPassword(personalSanitario, pwd);
 
-                if(n > 0 && cod == datosVacunacion.data.c){
+              if (n > 0 && cod == datosVacunacion.data.c) {
+                let revisarCampos = await checkFormFields(datosVacunacion);
 
-                  let revisarCampos = await checkFormFields(datosVacunacion)
+                if (revisarCampos == 0) {
+                  let resQuery = await registrarVacunacion(datosVacunacion);
+                  console.log("Resultado: ", resQuery);
 
-                  if(revisarCampos == 0){
-                    let resQuery = await registrarVacunacion(datosVacunacion)
-                    console.log('Resultado: ',resQuery)
-
-                    if (resQuery == 1) {
-                      navigation.goBack();
-                      Alert.alert("Success", "Vacunado");
-                    } else {
-                      Alert.alert("Failed", "Error al guardar!");
-                    }
-                  }else{
-                    Alert.alert("Error", `Hay ${revisarCampos} campos vacíos`);
+                  if (resQuery == 1) {
+                    navigation.goBack();
+                    Alert.alert("Success", "Vacunado");
+                  } else {
+                    Alert.alert("Failed", "Error al guardar!");
                   }
-                }else{
-                  Alert.alert('Error', 'Código incorrecto!')
+                } else {
+                  Alert.alert("Error", `Hay ${revisarCampos} campos vacíos`);
                 }
-              }}
+              } else {
+                Alert.alert("Error", "Código incorrecto!");
+              }
+            }}
           >
             <Text style={{ fontSize: 17, fontWeight: "800", color: "#fff" }}>
               Atender

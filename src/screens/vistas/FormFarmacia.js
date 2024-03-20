@@ -37,9 +37,12 @@ import {
   GetPersonalSanitario,
 } from "../../functions/GetFunctions";
 
-import { stylesFormRegistrarPaciente } from "../../styles/styles";
+import { stylesFormRegistrarPaciente, stylesComunes } from "../../styles/styles";
 
-import { registrarCita, registrarCompraMedicamento } from "../../functions/PostFunctions";
+import {
+  registrarCita,
+  registrarCompraMedicamento,
+} from "../../functions/PostFunctions";
 
 const FormFarmacia = ({ route, navigation }) => {
   //extraemos los parametros que nos envía la ruta anterior, en este caso la pantalla pacientes al hacer cliente en uno de ellos
@@ -48,12 +51,11 @@ const FormFarmacia = ({ route, navigation }) => {
   //variable que captura los datos que se alamacenarán en la tabla cita
   const [medicamentos, setMedicamentos] = useState("");
   const [personalSanitario, setPersonalSanitario] = useState("");
-  const [pwd, setPwd] = useState('')
+  const [pwd, setPwd] = useState("");
 
   const [datosFarmacia, setDatosFarmacia] = useState({
     datosMedicina: "",
     cantidad: 0,
-    precioManual: 0,
   });
 
   const [datosFarmaceutico, setdatosFarmaceutico] = useState({
@@ -77,9 +79,14 @@ const FormFarmacia = ({ route, navigation }) => {
     cargarMedicamentos();
   }, []);
   return (
-    <View style={{ flex: 1, justifyContent: "flex-start", padding: 10 }}>
-      <Text>Medicamento: {datosFarmacia.datosMedicina.n}</Text>
-      <Text>Precio{datosFarmacia.datosMedicina.p} XAF</Text>
+    <View
+      style={{
+        flex: 1,
+        justifyContent: "flex-start",
+        padding: 10,
+        backgroundColor: "#fff",
+      }}
+    >
       {medicamentos != "" ? (
         <View style={{ marginBottom: 15 }}>
           <Text style={{ fontSize: 20, fontWeight: "700" }}>Medicamento</Text>
@@ -89,14 +96,26 @@ const FormFarmacia = ({ route, navigation }) => {
               console.log(itemValue);
               cambioDato("datosMedicina", itemValue);
             }}
+
+            style={stylesComunes.stylesPicker}
           >
-            <Picker.Item label="--------------" />
+            <Picker.Item label="Seleccionar medicamento" />
             {medicamentos.map((val, index) => {
               return (
                 <Picker.Item
                   key={index}
-                  label={val.nombreMedicamento}
-                  value={{ n: val.nombreMedicamento, p: val.precioUnitario, stock: val.stock, id: val.idMedicamento }}
+                  label={
+                    val.nombreMedicamento +
+                    " ------- " +
+                    val.precioUnitario +
+                    " XAF"
+                  }
+                  value={{
+                    n: val.nombreMedicamento,
+                    p: val.precioUnitario,
+                    stock: val.stock,
+                    id: val.idMedicamento,
+                  }}
                 />
               );
             })}
@@ -106,36 +125,27 @@ const FormFarmacia = ({ route, navigation }) => {
         ""
       )}
 
-      <Text>Precio total</Text>
-      <TextInput
-        style={stylesFormRegistrarPaciente.inputText}
-        placeholder="Precio total..."
-        onChangeText={(val) => {
-          cambioDato('precioManual', val)
-        }}
-      />
-
-<Text>Cantidad </Text>
+      <Text style={{ fontSize: 18, fontWeight: "bold" }}>Cantidad </Text>
       <TextInput
         style={stylesFormRegistrarPaciente.inputText}
         placeholder="Cantidad..."
         onChangeText={(val) => {
-          cambioDato('cantidad', val)
+          cambioDato("cantidad", val);
         }}
       />
-
-      <Text>Farmaceútico: {datosFarmaceutico.data.n}</Text>
       {personalSanitario != "" ? (
-        <View style={{ marginBottom: 15 }}>
-          <Text style={{ fontSize: 20, fontWeight: "700" }}>Farmaceútico</Text>
+        <View style={{ marginBottom: 15, marginTop: 10 }}>
+          <Text style={{ fontSize: 18, fontWeight: "bold" }}>Farmaceútico</Text>
           <Picker
             selectedValue={datosFarmaceutico.data.n}
             onValueChange={(itemValue, itemIndex) => {
               console.log("F: ", itemValue);
               cambioDatoF("data", itemValue);
             }}
+
+            style={stylesComunes.stylesPicker}
           >
-            <Picker.Item label="--------------" />
+            <Picker.Item label="Seleccionar personal sanitario" />
             {personalSanitario.map((val, index) => {
               return (
                 <Picker.Item
@@ -151,19 +161,19 @@ const FormFarmacia = ({ route, navigation }) => {
         ""
       )}
 
-<Text>Contraseña </Text>
+      <Text style={{ fontSize: 18, fontWeight: "bold" }}>Contraseña </Text>
       <TextInput
         style={stylesFormRegistrarPaciente.inputText}
         placeholder="Contraseña de usuario"
         onChangeText={(val) => {
-          setPwd(val)
+          setPwd(val);
         }}
       />
 
       <View
         style={{
           width: "100%",
-          height: 30,
+          height: 200,
           justifyContent: "space-around",
           alignItems: "center",
           flexDirection: "row",
@@ -179,30 +189,32 @@ const FormFarmacia = ({ route, navigation }) => {
             borderRadius: 10,
           }}
           onPress={async () => {
-            let {n, cod} = await checkIfPassword(personalSanitario, pwd)
+            let { n, cod } = await checkIfPassword(personalSanitario, pwd);
 
-            
             //validar si el codigo del farmaceutico seleccionado es el correcto
-            if(n == 1 && cod == datosFarmaceutico.data.c){
-              console.log(n, cod)
+            if (n == 1 && cod == datosFarmaceutico.data.c) {
+              console.log(n, cod);
               let res = checkFormFields(datosFarmacia);
 
-            if (res > 0) {
-              Alert.alert("Error", `Hay ${res} campos vacíos`);
-            } else {
-              console.log(n, cod)
-              console.log('ejecuta el registro')
-              let res = await registrarCompraMedicamento(datosFarmacia, datosFarmaceutico);
-
-              if (res === 1) {
-                navigation.goBack();
-                Alert.alert("Success", "Cita registrada con éxito!");
+              if (res > 0) {
+                Alert.alert("Error", `Hay ${res} campos vacíos`);
               } else {
-                Alert.alert("Failed", "Cita no registrada!");
+                console.log(n, cod);
+                console.log("ejecuta el registro");
+                let res = await registrarCompraMedicamento(
+                  datosFarmacia,
+                  datosFarmaceutico
+                );
+
+                if (res === 1) {
+                  navigation.goBack();
+                  Alert.alert("Success", "Compra realizada con éxito!");
+                } else {
+                  Alert.alert("Failed", "Error al guardar!");
+                }
               }
-            }
-            }else{
-              Alert.alert('Error', 'Código incorrecto')
+            } else {
+              Alert.alert("Error", "Código incorrecto");
             }
           }}
         >

@@ -9,6 +9,7 @@ import {
   View,
   ScrollView,
   Alert,
+  SafeAreaView,
 } from "react-native";
 
 //importamos las funciones genericas
@@ -87,23 +88,23 @@ export default function FormRehabilitar({ route, navigation }) {
       setPersonalSanitario(resPersonalSanitario);
       console.log("Formulario de RHB: ", route.params);
     };
-
+    
     cargarFnc();
   }, []);
 
   return (
     <View style={stylesFormRegistrarPaciente.container}>
       <StatusBar style="light" backgroundColor={colors.AppColor} />
-      <View style={stylesFormRegistrarPaciente.containerScroll}>
+      <SafeAreaView>
         <ScrollView
           scrollEnabled={true}
           style={stylesFormRegistrarPaciente.containerForm}
           contentContainerStyle={{
-            flex: 1,
             justifyContent: "center",
             alignItems: "center",
           }}
         >
+          <Text style={stylesFormRegistrarPaciente.fieldText}>Tipo </Text>
           <TextInput
             style={stylesFormRegistrarPaciente.inputText}
             placeholder="Tipo de rehabilitación"
@@ -111,45 +112,88 @@ export default function FormRehabilitar({ route, navigation }) {
               actualizarCampos("tipoRehabilitacion", text)
             }
           />
+          <Text style={stylesFormRegistrarPaciente.fieldText}>Días </Text>
           <TextInput
             style={stylesFormRegistrarPaciente.inputText}
             placeholder="Días de la semana"
             onChangeText={(text) => actualizarCampos("diasSemana", text)}
           />
+
+          <View
+            style={{
+              width: "100%",
+              flexDirection: "row-reverse",
+              justifyContent: "space-around",
+            }}
+          >
+            <View style={stylesFormRegistrarPaciente.containerCuatroText}>
+              <Text style={stylesFormRegistrarPaciente.fieldText}>
+                Hora de la cita
+              </Text>
+              <TextInput
+                style={stylesFormRegistrarPaciente.inputCuatroText}
+                placeholder="Hora de la cita"
+                onChangeText={(text) => actualizarCampos("horaCita", text)}
+              />
+            </View>
+
+            <View style={stylesFormRegistrarPaciente.containerCuatroText}>
+              <Text style={stylesFormRegistrarPaciente.fieldText}>
+                Horas a la semana{" "}
+              </Text>
+              <TextInput
+                style={stylesFormRegistrarPaciente.inputCuatroText}
+                keyboardType="number-pad"
+                placeholder="Cantidad de horas a la semana"
+                onChangeText={(text) =>
+                  actualizarCampos("numeroHorasSemana", text)
+                }
+              />
+            </View>
+          </View>
+
+          <View style={{
+              width: "100%",
+              flexDirection: "row-reverse",
+              justifyContent: "space-around",
+            }}>
+            <View style={stylesFormRegistrarPaciente.containerCuatroText}>
+              <Text style={stylesFormRegistrarPaciente.fieldText}>Tipo </Text>
+              <TextInput
+                style={stylesFormRegistrarPaciente.inputCuatroText}
+                placeholder="Tipo de lesión"
+                onChangeText={(text) => actualizarCampos("tipoLesion", text)}
+              />
+            </View>
+
+            <View>
+              <Text style={stylesFormRegistrarPaciente.fieldText}>Fecha</Text>
+              <TextInput
+                style={stylesFormRegistrarPaciente.inputCuatroText}
+                placeholder="Fecha de realización"
+                onChangeText={(text) =>
+                  actualizarCampos("fechaRealizacion", text)
+                }
+              />
+            </View>
+          </View>
+
+          <Text style={stylesFormRegistrarPaciente.fieldText}>Causa </Text>
           <TextInput
-            style={stylesFormRegistrarPaciente.inputText}
-            keyboardType="number-pad"
-            placeholder="Hora de la cita"
-            onChangeText={(text) => actualizarCampos("horaCita", text)}
-          />
-          <TextInput
-            style={stylesFormRegistrarPaciente.inputText}
-            keyboardType="number-pad"
-            placeholder="Cantidad de horas a la semana"
-            onChangeText={(text) => actualizarCampos("numeroHorasSemana", text)}
-          />
-          <TextInput
-            style={stylesFormRegistrarPaciente.inputText}
-            placeholder="Tipo de lesión"
-            onChangeText={(text) => actualizarCampos("tipoLesion", text)}
-          />
-          <TextInput
-            style={stylesFormRegistrarPaciente.inputText}
+            style={stylesFormRegistrarPaciente.inputCuatroText}
             placeholder="Causa de la lesión"
             onChangeText={(text) => actualizarCampos("causaLesion", text)}
           />
+          <Text style={stylesFormRegistrarPaciente.fieldText}>Progreso </Text>
           <TextInput
-            style={stylesFormRegistrarPaciente.inputText}
+            style={stylesFormRegistrarPaciente.inputCuatroText}
             placeholder="Progreso de la rehabilitación"
             onChangeText={(text) => actualizarCampos("progreso", text)}
           />
 
-          <TextInput
-            style={stylesFormRegistrarPaciente.inputText}
-            placeholder="Fecha de realización"
-            onChangeText={(text) => actualizarCampos("fechaRealizacion", text)}
-          />
-
+          <Text style={stylesFormRegistrarPaciente.fieldText}>
+            Código del personal{" "}
+          </Text>
           <TextInput
             style={stylesFormRegistrarPaciente.inputText}
             placeholder="Verificar identidad"
@@ -165,11 +209,16 @@ export default function FormRehabilitar({ route, navigation }) {
               if (res > 0) {
                 Alert.alert("Error", `Hay ${res} campos vacíos`);
               } else {
+                let resCheckPwd = await checkIfPassword(
+                  personalSanitario,
+                  password
+                );
 
-                let resCheckPwd = await checkIfPassword(personalSanitario, password)
-
-                if (resCheckPwd.n > 0 ) {
-                  let res = await registrarRehabilitacion(datosPaciente, resCheckPwd.cod);
+                if (resCheckPwd.n > 0) {
+                  let res = await registrarRehabilitacion(
+                    datosPaciente,
+                    resCheckPwd.cod
+                  );
                   if (res === 1) {
                     navigation.goBack();
                     Alert.alert("Success", "Rehabilitado con éxito!");
@@ -185,7 +234,7 @@ export default function FormRehabilitar({ route, navigation }) {
             <Text style={{ color: "#fff" }}>Atender</Text>
           </TouchableOpacity>
         </ScrollView>
-      </View>
+      </SafeAreaView>
     </View>
   );
 }

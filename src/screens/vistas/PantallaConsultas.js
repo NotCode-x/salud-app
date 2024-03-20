@@ -34,7 +34,10 @@ import {
 } from "../../functions/GetFunctions";
 
 //importamos los estilos de esta pantalla
-import { stylesScreenConsultas } from "../../styles/styles";
+import {
+  stylesScreenConsultas,
+  stylesScreenPacientes,
+} from "../../styles/styles";
 
 //importamos axios para probar la conexión con la base de datos para testear
 import axios from "axios";
@@ -63,24 +66,26 @@ export default function PantallaConsultas({ route, navigation }) {
     cargarFnc();
   }, []);
 
+  //useLayaoutEffect se utiliza para recargar la pagina al entrar en el
+  React.useLayoutEffect(() => {
+    const unsubscribe = navigation.addListener("focus", async () => {
+      let res = await GetAllConsultas();
+
+      setConsultas(res);
+    });
+
+    return unsubscribe;
+  }, []);
+
   return (
-    <View style={stylesScreenConsultas.container}>
+    <View style={stylesScreenPacientes.container}>
       <StatusBar style="auto" />
 
       <View style={stylesScreenConsultas.containerSearch}>
         <TextInput
-          style={stylesScreenConsultas.inputSearch}
+          style={stylesScreenConsultas.inputSearchDos}
           placeholder="Buscar paciente..."
         />
-        <TouchableOpacity
-          style={stylesScreenConsultas.buttonAdd}
-          onPress={() => {
-            //En esta linea lo que hacemos es navegar a otra pantalla (la pantalla del formulario de registro) utilizando el objeto navigation y su método navigate
-            navigation.navigate("FormRegistrarPaciente");
-          }}
-        >
-          <Ionicons name="person-add" size={30} />
-        </TouchableOpacity>
       </View>
 
       {consultas == "" ? (
@@ -88,72 +93,76 @@ export default function PantallaConsultas({ route, navigation }) {
       ) : (
         <FlatList
           data={consultas}
-          style={stylesScreenConsultas.flatListStyle}
+          style={stylesScreenPacientes.flatListStyle}
+          contentContainerStyle={{
+            justifyContent: "center",
+            alignItems: "center",
+            paddingTop: 10,
+          paddingBottom: 50
+          }}
           renderItem={({ item, index }) => {
-            return (
-              item.estadoConsulta == 'En espera' ||  item.estadoConsulta == 'Resultados y análisis' ? (
-                <TouchableOpacity
-            style={stylesScreenConsultas.ListItemView}
-            onPress={() => {
-              //navigation.navigate('PantallaRevisarCita', item)
-              if(item.estadoConsulta == 'En espera'){
-                Alert.alert("Confirmar", "¿Desea ir a la consulta?", [
-                  {
-                    text: "Ir a la consulta",
-                    onPress: () => {
-                      navigation.navigate("FormConsultorio", item);
-                    },
-                  },
-                  {
-                    text: "Cancelar",
-                    onPress: () => {
-                      console.log("nada");
-                    },
-                  },
-                ]);
-              }else if(item.estadoConsulta == 'Resultados y análisis'){
-                Alert.alert("Confirmar", "¿Diagnóstico final?", [
-                  {
-                    text: "Diagnóstico final",
-                    onPress: () => {
-                      navigation.navigate("FormEnfermedad", item);
-                    },
-                  },
-                  {
-                    text: "Cancelar",
-                    onPress: () => {
-                      console.log("nada");
-                    },
-                  },
-                ]);
-              }
-            }}
-          >
-            <View style={stylesScreenConsultas.nameItem}>
-              <Text style={stylesScreenConsultas.textItem}>
-                {item.codigoPaciente}
-              </Text>
-              <Text style={stylesScreenConsultas.textItem}>
-                {item.nombrePaciente}
-              </Text>
-              <Text style={stylesScreenConsultas.textItem}>
-                {item.apellidosPaciente}
-              </Text>
-            </View>
-            {
-              
-              item.estadoConsulta == 'En espera' ? (
-                <Text style={stylesScreenConsultas.textDescriptionGrave}>
-                {item.estadoConsulta}
-              </Text>
-              ) : (
-                <Text style={stylesScreenConsultas.textDescriptionNormal}>
-                {item.estadoConsulta}
-              </Text>
-              )
-            }
-          </TouchableOpacity>
-            ) : ''
+            return item.estadoConsulta == "En espera" ||
+              item.estadoConsulta == "Resultados y análisis" ? (
+              <TouchableOpacity
+                style={stylesScreenConsultas.ListItemView}
+                onPress={() => {
+                  //navigation.navigate('PantallaRevisarCita', item)
+                  if (item.estadoConsulta == "En espera") {
+                    Alert.alert("Confirmar", "¿Desea ir a la consulta?", [
+                      {
+                        text: "Ir a la consulta",
+                        onPress: () => {
+                          navigation.navigate("FormConsultorio", item);
+                        },
+                      },
+                      {
+                        text: "Cancelar",
+                        onPress: () => {
+                          console.log("nada");
+                        },
+                      },
+                    ]);
+                  } else if (item.estadoConsulta == "Resultados y análisis") {
+                    Alert.alert("Confirmar", "¿Diagnóstico final?", [
+                      {
+                        text: "Diagnóstico final",
+                        onPress: () => {
+                          navigation.navigate("FormEnfermedad", item);
+                        },
+                      },
+                      {
+                        text: "Cancelar",
+                        onPress: () => {
+                          console.log("nada");
+                        },
+                      },
+                    ]);
+                  }
+                }}
+              >
+                <View style={stylesScreenPacientes.nameItem}>
+                  <Text style={stylesScreenPacientes.textItem}>
+                    {item.codigoPaciente}
+                  </Text>
+                  <Text style={stylesScreenPacientes.textItem}>
+                    {item.nombrePaciente}
+                  </Text>
+                  <Text style={stylesScreenPacientes.textApellido}>
+                    {item.apellidosPaciente}
+                  </Text>
+                </View>
+                {item.estadoConsulta == "En espera" ? (
+                  <Text style={stylesScreenConsultas.textDescriptionGrave}>
+                    {item.estadoConsulta}
+                  </Text>
+                ) : (
+                  <Text style={stylesScreenConsultas.textDescriptionNormal}>
+                    {item.estadoConsulta}
+                  </Text>
+                )}
+              </TouchableOpacity>
+            ) : (
+              ""
             );
           }}
           numColumns={1}

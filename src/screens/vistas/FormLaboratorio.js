@@ -9,6 +9,7 @@ import {
   View,
   ScrollView,
   Alert,
+  SafeAreaView
 } from "react-native";
 
 //importamos las funciones genericas
@@ -50,8 +51,13 @@ import { colors } from "../../styles/colors";
 
 export default function FormLaboratorio({ route, navigation }) {
   //recibimos los parametros que se han traspado de la pantalla de consultas a la pantalla del formulario
-  const { numeroConsulta, diagnosticoConsulta, pruebasLaboratorio, nombrePaciente, apellidosPaciente } =
-    route.params;
+  const {
+    numeroConsulta,
+    diagnosticoConsulta,
+    pruebasLaboratorio,
+    nombrePaciente,
+    apellidosPaciente,
+  } = route.params;
 
   //variable donde se almacena un identificador universal
   let codPaciente = "P" + uuidv4().substring(0, 4);
@@ -63,12 +69,12 @@ export default function FormLaboratorio({ route, navigation }) {
 
   const [datosConsulta, setDatosLab] = useState({
     idConsulta: numeroConsulta,
-    resultadosLaboratorio: '',
-    precio: ''
+    resultadosLaboratorio: "",
+    precio: "",
   });
 
   const actualizarCampos = (name, value) =>
-  setDatosLab({ ...datosConsulta, [name]: value });
+    setDatosLab({ ...datosConsulta, [name]: value });
 
   useEffect(() => {
     const cargarFnc = async () => {
@@ -82,72 +88,82 @@ export default function FormLaboratorio({ route, navigation }) {
   }, []);
 
   return (
-    <View style={stylesFormLaboratorio.container}>
+    <View
+      style={{
+        flex: 1,
+        justifyContent: "flex-start",
+        padding: 25,
+        backgroundColor: "#fff",
+      }}
+    >
       <StatusBar style="light" backgroundColor={colors.AppColor} />
-      <View style={stylesFormLaboratorio.containerScroll}>
-        <ScrollView
-          scrollEnabled={true}
-          style={stylesFormLaboratorio.containerForm}
-          contentContainerStyle={{
-            flex: 1,
-            justifyContent: "center",
-            alignItems: "center",
+      <SafeAreaView>
+      <View
+        style={{
+          width: "100%",
+          height: "15%",
+          marginTop: 10,
+          justifyContent: "space-around",
+        }}
+      >
+        <Text
+          style={{
+            fontSize: 22,
+            fontWeight: "700",
+            textAlign: "center",
+            borderBottomWidth: 1,
+            borderBottomColor: colors.AppColor,
+            paddingBottom: 15,
+            color: colors.AppColor,
           }}
         >
-
-            <View>
-            <Text style={stylesFormLaboratorio.fieldText}>Paciente</Text>
-            <Text>{nombrePaciente} {apellidosPaciente}</Text>
-            <Text></Text>
-            <Text style={stylesFormLaboratorio.fieldText}>Pruebas a realizar</Text>
-            <Text>{pruebasLaboratorio}</Text>
-            </View>
-
-            <Text style={stylesFormLaboratorio.fieldText}>Resultados</Text>
-          <TextInput
-            style={stylesFormLaboratorio.inputResultados}
-            multiline={true}
-            numberOfLines={4}
-            placeholder="Resultaddos de los análisis........................."
-            onChangeText={(text) =>
-              actualizarCampos("resultadosLaboratorio", text)
-            }
-          />
-
-<Text style={stylesFormLaboratorio.fieldText}>Precio</Text>
-
-<TextInput
-            style={stylesFormLaboratorio.inputText}
-            keyboardType="number-pad"
-            placeholder="Monto a pagar"
-            onChangeText={(text) => actualizarCampos("precio", text)}
-          />
-          <TouchableOpacity
-            style={stylesFormLaboratorio.buttonRegister}
-            onPress={async () => {
-              console.log("Datos a registrar: ", datosConsulta);
-              let res = checkFormFields(datosConsulta);
-
-              if (res > 0) {
-                Alert.alert("Error", `Hay ${res} campos vacíos`);
-              } else {
-
-                let res = await actualizarResultadosConsulta(
-                  datosConsulta
-                );
-                if (res === 1) {
-                  navigation.goBack();
-                  Alert.alert("Success", "Resultados agreados con éxito!");
-                } else {
-                  Alert.alert("Failed", "Error al agregar resultados!");
-                }
-              }
-            }}
-          >
-            <Text style={{ color: "#fff" }}>Atender</Text>
-          </TouchableOpacity>
-        </ScrollView>
+          {nombrePaciente + " " + apellidosPaciente}
+        </Text>
       </View>
+
+      <Text style={stylesFormLaboratorio.fieldText}>Pruebas a realizar</Text>
+      <Text>{pruebasLaboratorio}</Text>
+
+      <Text style={stylesFormLaboratorio.fieldText}>Resultados</Text>
+      <TextInput
+        style={stylesFormLaboratorio.inputResultados}
+        multiline={true}
+        numberOfLines={4}
+        placeholder="Resultaddos de los análisis........................."
+        onChangeText={(text) => actualizarCampos("resultadosLaboratorio", text)}
+      />
+
+      <Text style={stylesFormLaboratorio.fieldText}>Precio</Text>
+
+      <TextInput
+        style={stylesFormLaboratorio.inputText}
+        keyboardType="number-pad"
+        placeholder="Monto a pagar"
+        onChangeText={(text) => actualizarCampos("precio", text)}
+      />
+      <TouchableOpacity
+        style={stylesFormLaboratorio.buttonRegister}
+        onPress={async () => {
+          console.log("Datos a registrar: ", datosConsulta);
+          let res = checkFormFields(datosConsulta);
+          
+
+          if (res > 0) {
+            Alert.alert("Error", `Hay ${res} campos vacíos`);
+          } else {
+            let res = await actualizarResultadosConsulta(datosConsulta);
+            if (res === 1) {
+              navigation.goBack();
+              Alert.alert("Success", "Resultados agreados con éxito!");
+            } else {
+              Alert.alert("Failed", "Error al agregar resultados!");
+            }
+          }
+        }}
+      >
+        <Text style={{ color: "#fff" }}>Atender</Text>
+      </TouchableOpacity>
+      </SafeAreaView>
     </View>
   );
 }

@@ -30,6 +30,13 @@ import FormConsultorio from "./src/screens/vistas/FormConsultorio";
 import FormLaboratorio from "./src/screens/vistas/FormLaboratorio";
 import FormEnfermedad from "./src/screens/vistas/FormEnfermedad";
 import FormFarmacia from "./src/screens/vistas/FormFarmacia";
+import FormVacunacion from "./src/screens/vistas/FormVacunacion";
+import FormEditarPaciente from "./src/screens/vistas/FormEditarPaciente";
+import FormVerHistorialConsultas from "./src/screens/vistas/FormVerHistorialConsultas";
+import FormVerHistorialLaboratorio from "./src/screens/vistas/FormVerHistorialLaboratorio";
+import FormVerHistorialCitas from "./src/screens/vistas/FormVerHistorialCitas";
+import FormVerHistorialRehabilitacion from "./src/screens/vistas/FormVerHistorialRehabilitacion";
+import FormVerHistorialVacunacion from "./src/screens/vistas/FormVerHistorialVacunacion";
 
 //pantalla para revisar y concertar cita
 import PantallaRevisarCita from "./src/screens/vistas/PantallaRevisarCita";
@@ -126,10 +133,96 @@ function App() {
         />
 
         <Stack.Screen
+          name="FormVacunacion"
+          component={FormVacunacion}
+          options={{
+            title: "Registro vacunación",
+            headerStyle: {
+              backgroundColor: colors.AppColor,
+            },
+            headerTintColor: "#fff",
+          }}
+        />
+
+        <Stack.Screen
+          name="FormEditarPaciente"
+          component={FormEditarPaciente}
+          options={{
+            title: "Editar paciente",
+            headerStyle: {
+              backgroundColor: colors.AppColor,
+            },
+            headerTintColor: "#fff",
+          }}
+        />
+
+        <Stack.Screen
           name="FormFarmacia"
           component={FormFarmacia}
           options={{
             title: "Farmacia",
+            headerStyle: {
+              backgroundColor: colors.AppColor,
+            },
+            headerTintColor: "#fff",
+          }}
+        />
+
+<Stack.Screen
+          name="FormVerHistorialLaboratorio"
+          component={FormVerHistorialLaboratorio}
+          options={{
+            title: "Historial de laboratorio",
+            headerStyle: {
+              backgroundColor: colors.AppColor,
+            },
+            headerTintColor: "#fff",
+          }}
+        />
+
+
+
+        <Stack.Screen
+          name="FormVerHistorialConsultas"
+          component={FormVerHistorialConsultas}
+          options={{
+            title: "Historial de consultas",
+            headerStyle: {
+              backgroundColor: colors.AppColor,
+            },
+            headerTintColor: "#fff",
+          }}
+        />
+
+<Stack.Screen
+          name="FormVerHistorialCitas"
+          component={FormVerHistorialCitas}
+          options={{
+            title: "Historial de citas",
+            headerStyle: {
+              backgroundColor: colors.AppColor,
+            },
+            headerTintColor: "#fff",
+          }}
+        />
+
+<Stack.Screen
+          name="FormVerHistorialRehabilitacion"
+          component={FormVerHistorialRehabilitacion}
+          options={{
+            title: "Historial de rehabilitación",
+            headerStyle: {
+              backgroundColor: colors.AppColor,
+            },
+            headerTintColor: "#fff",
+          }}
+        />
+
+<Stack.Screen
+          name="FormVerHistorialVacunacion"
+          component={FormVerHistorialVacunacion}
+          options={{
+            title: "Historial de vacunaciones",
             headerStyle: {
               backgroundColor: colors.AppColor,
             },

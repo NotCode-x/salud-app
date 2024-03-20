@@ -63,24 +63,26 @@ export default function PantallaLaboratorio({ route, navigation }) {
     cargarFnc();
   }, []);
 
+  //useLayaoutEffect se utiliza para recargar la pagina al entrar en el
+  React.useLayoutEffect(() => {
+    const unsubscribe = navigation.addListener("focus", async () => {
+      let res = await GetAllConsultas();
+
+      setConsultas(res);
+    });
+
+    return unsubscribe;
+  }, []);
+
   return (
     <View style={stylesScreenConsultas.container}>
       <StatusBar style="auto" />
 
       <View style={stylesScreenConsultas.containerSearch}>
         <TextInput
-          style={stylesScreenConsultas.inputSearch}
+          style={stylesScreenConsultas.inputSearchDos}
           placeholder="Buscar paciente..."
         />
-        <TouchableOpacity
-          style={stylesScreenConsultas.buttonAdd}
-          onPress={() => {
-            //En esta linea lo que hacemos es navegar a otra pantalla (la pantalla del formulario de registro) utilizando el objeto navigation y su método navigate
-            navigation.navigate("FormRegistrarPaciente");
-          }}
-        >
-          <Ionicons name="person-add" size={30} />
-        </TouchableOpacity>
       </View>
 
       {consultas == "" ? (
@@ -89,6 +91,12 @@ export default function PantallaLaboratorio({ route, navigation }) {
         <FlatList
           data={consultas}
           style={stylesScreenConsultas.flatListStyle}
+          contentContainerStyle={{
+            justifyContent: "center",
+            alignItems: "center",
+            paddingTop: 10,
+          paddingBottom: 50
+          }}
           renderItem={({ item, index }) => {
             return (
                 item.estadoConsulta == 'Pruebas y análisis' ? (

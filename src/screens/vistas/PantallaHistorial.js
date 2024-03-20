@@ -12,6 +12,7 @@ import {
   TouchableOpacity,
   View,
   Modal,
+  Alert,
 } from "react-native";
 
 //Importamos iconos que nos proporciona el framework expo con el modulo @expo/vector-icons
@@ -34,10 +35,14 @@ import { stylesScreenPacientes, stylesComunes } from "../../styles/styles";
 
 //importamos axios para probar la conexión con la base de datos para testear
 import axios from "axios";
+import { colors } from "../../styles/colors";
 
-export default function PantallaPacientes({ route, navigation }) {
+export default function PantallaHistorial({ route, navigation }) {
   //variable para almacenar todos los pacientes que responde el backend
   const [pacientes, setPacientes] = useState("");
+  const [historialPaciente, setHistorial] = useState('')
+
+  const [modal, setModal] = useState(false);
 
   //variable para almacenar el valor que se busca
   const [buscar, setBuscar] = useState("");
@@ -73,11 +78,114 @@ export default function PantallaPacientes({ route, navigation }) {
   return (
     <View style={stylesScreenPacientes.container}>
       <StatusBar style="auto" />
+      <Modal
+        animationType="slide"
+        transparent={false}
+        visible={modal}
+        onRequestClose={() => {
+          setModal(!modal);
+        }}
+      >
+        <View
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Text
+            style={{
+              textAlign: 'center',
+              fontSize: 30,
+              color: colors.AppColor,
+              fontWeight: "bold",
+              borderBottomWidth: 1,
+              borderColor: colors.AppColor,
+              marginBottom: 100,
+              paddingBottom: 10,
+              borderBottomWidth: 6
+            }}
+          >
+            Seleccionar historial
+          </Text>
+          <TouchableOpacity
+            style={{
+              width: "35%",
+              height: "auto",
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: colors.AppColor,
+              padding: 12,
+              borderRadius: 10,
+              marginBottom: 5,
+            }}
 
+            onPress={ () => navigation.navigate('FormVerHistorialConsultas', historialPaciente)}
+          >
+            <Text style={{ fontSize: 15, color: "#fff", fontWeight: "bold" }}>
+              Consulta
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              width: "35%",
+              height: "auto",
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: colors.AppColor,
+              padding: 12,
+              borderRadius: 10,
+              marginBottom: 5,
+            }}
+
+            onPress={ () => navigation.navigate('FormVerHistorialRehabilitacion', historialPaciente)}
+          >
+            <Text style={{ fontSize: 15, color: "#fff", fontWeight: "bold" }}>
+              Rehabilitación
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              width: "35%",
+              height: "auto",
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: colors.AppColor,
+              padding: 12,
+              borderRadius: 10,
+              marginBottom: 5,
+            }}
+
+            onPress={ () => navigation.navigate('FormVerHistorialVacunacion', historialPaciente)}
+          >
+            <Text style={{ fontSize: 15, color: "#fff", fontWeight: "bold" }}>
+              Vacunación
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              width: "35%",
+              height: "auto",
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: colors.AppColor,
+              padding: 12,
+              borderRadius: 10,
+              marginBottom: 5,
+            }}
+
+            onPress={ () => navigation.navigate('FormVerHistorialLaboratorio', historialPaciente)}
+          >
+            <Text style={{ fontSize: 15, color: "#fff", fontWeight: "bold" }}>
+              Laboratorio
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </Modal>
       <View style={stylesScreenPacientes.containerSearch}>
         <TextInput
-          style={stylesScreenPacientes.inputSearch}
-          placeholder="Buscar paciente..."
+          style={stylesScreenPacientes.inputSearchDos}
+          placeholder="Buscar historial del paciente..."
           onChangeText={(text) => {
             //variable para almacenar el resultado de la busqueda
             let res = searchName(pacientes, text);
@@ -87,15 +195,6 @@ export default function PantallaPacientes({ route, navigation }) {
             setResultados(res);
           }}
         />
-        <TouchableOpacity
-          style={stylesScreenPacientes.buttonAdd}
-          onPress={() => {
-            //En esta linea lo que hacemos es navegar a otra pantalla (la pantalla del formulario de registro) utilizando el objeto navigation y su método navigate
-            navigation.navigate("FormRegistrarPaciente");
-          }}
-        >
-          <Ionicons name="person-add" size={30} />
-        </TouchableOpacity>
       </View>
 
       {resultadosBusqueda == "" ? (
@@ -110,7 +209,13 @@ export default function PantallaPacientes({ route, navigation }) {
           }}
           renderItem={({ item, index }) => {
             return (
-              <View style={stylesScreenPacientes.ListItemView}>
+              <TouchableOpacity
+                style={stylesScreenPacientes.ListItemViewDos}
+                onPress={() => {
+                  setModal(!modal);
+                  setHistorial(item)
+                }}
+              >
                 <View style={stylesScreenPacientes.nameItem}>
                   <Text style={stylesScreenPacientes.textItem}>
                     {item.nombrePaciente}
@@ -119,22 +224,7 @@ export default function PantallaPacientes({ route, navigation }) {
                     {item.apellidosPaciente}
                   </Text>
                 </View>
-                <View style={stylesComunes.containerDosBotones}>
-                  <TouchableOpacity style={stylesComunes.botonEditar} onPress={() =>
-                      navigation.navigate("FormEditarPaciente", item)
-                    }>
-                    <Text style={stylesComunes.textoBotons}>Editar</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                  style={stylesComunes.botonAccess}
-                    onPress={() =>
-                      navigation.navigate("PantallaRevisarCita", item)
-                    }
-                  >
-                    <Text style={stylesComunes.textoBotons}>Concertar cita</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
+              </TouchableOpacity>
             );
           }}
           numColumns={1}
@@ -152,7 +242,13 @@ export default function PantallaPacientes({ route, navigation }) {
           }}
           renderItem={({ item, index }) => {
             return (
-              <View style={stylesScreenPacientes.ListItemView}>
+              <TouchableOpacity
+                style={stylesScreenPacientes.ListItemViewDos}
+                onPress={() => {
+                  setModal(!modal);
+                  setHistorial(item)
+                }}
+              >
                 <View style={stylesScreenPacientes.nameItem}>
                   <Text style={stylesScreenPacientes.textItem}>
                     {item.nombrePaciente}
@@ -161,22 +257,7 @@ export default function PantallaPacientes({ route, navigation }) {
                     {item.apellidosPaciente}
                   </Text>
                 </View>
-                <View style={stylesComunes.containerDosBotones}>
-                <TouchableOpacity style={stylesComunes.botonEditar} onPress={() =>
-                      navigation.navigate("FormEditarPaciente", item)
-                    }>
-                    <Text style={stylesComunes.textoBotons}>Editar</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                  style={stylesComunes.botonAccess}
-                    onPress={() =>
-                      navigation.navigate("PantallaRevisarCita", item)
-                    }
-                  >
-                    <Text style={stylesComunes.textoBotons}>Concertar cita</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
+              </TouchableOpacity>
             );
           }}
           numColumns={1}

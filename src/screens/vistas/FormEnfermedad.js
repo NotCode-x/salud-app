@@ -65,7 +65,7 @@ export default function FormEnfermedad({ route, navigation }) {
     sintomas: "",
     descripcion: "",
     id: numeroConsulta,
-    receta: ''
+    receta: "",
   });
 
   const actualizarCampos = (name, value) =>
@@ -127,15 +127,13 @@ export default function FormEnfermedad({ route, navigation }) {
             onChangeText={(text) => actualizarCampos("descripcion", text)}
           />
 
-<Text style={stylesFormRegistrarPaciente.fieldText}>Receta</Text>
+          <Text style={stylesFormRegistrarPaciente.fieldText}>Receta</Text>
 
-<TextInput
-  style={stylesFormRegistrarPaciente.inputDescripcion}
-  placeholder="Receta...................."
-  onChangeText={(text) => actualizarCampos("receta", text)}
-/>
-
-
+          <TextInput
+            style={stylesFormRegistrarPaciente.inputDescripcion}
+            placeholder="Receta...................."
+            onChangeText={(text) => actualizarCampos("receta", text)}
+          />
 
           <TouchableOpacity
             style={stylesFormRegistrarPaciente.buttonRegister}

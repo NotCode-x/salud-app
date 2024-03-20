@@ -13,7 +13,8 @@ import {
   FontAwesome5,
   AntDesign,
   MaterialIcons,
-  Fontisto
+  Fontisto,
+  Foundation,
 } from "@expo/vector-icons";
 
 //Este es un componente que nos permite crear navegación entre las pantallas de la app
@@ -32,7 +33,7 @@ import {
 import PantallaPacientes from "../vistas/PantallaPacientes";
 import PantallaConsultas from "../vistas/PantallaConsultas";
 import PantallaCitas from "../vistas/PantallaCitas";
-import PantallaAjustes from "../vistas/PantallaAjustes";
+import PantallaHistorial from "../vistas/PantallaHistorial";
 import PantallaRehabilitacion from "../vistas/PantallaRehabilitacion";
 import PantallaVacunacion from "../vistas/PantallaVacunacion";
 import PantallaLaboratorio from "../vistas/PantallaLaboratorio";
@@ -43,7 +44,7 @@ import PantallaHome from "../vistas/PantallaHome";
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
 
-export default function MenuPrincipal({route, navigation}) {
+export default function MenuPrincipal({ route, navigation }) {
   return (
     <Drawer.Navigator
       drawerContent={(props) => {
@@ -59,13 +60,26 @@ export default function MenuPrincipal({route, navigation}) {
                 alignItems: "flex-start",
               }}
             >
-              <FontAwesome name="user-circle" size={70} color="#fff" style={{marginBottom: 10}} />
+              <FontAwesome
+                name="user-circle"
+                size={55}
+                color="#fff"
+                style={{ marginBottom: 10 }}
+              />
               <View>
-              <Text>Usuario</Text>
-              <Text>testcorreo@mail.test</Text>
+                <Text
+                  style={{ fontSize: 16, fontWeight: "bold", color: "#fff" }}
+                >
+                  Usuario
+                </Text>
+                <Text
+                  style={{ fontSize: 14, fontWeight: "bold", color: "#fff" }}
+                >
+                  testcorreo@mail.test
+                </Text>
               </View>
             </View>
-            <DrawerItemList {...props}/>
+            <DrawerItemList {...props} />
           </SafeAreaView>
         );
       }}
@@ -73,23 +87,21 @@ export default function MenuPrincipal({route, navigation}) {
         drawerIcon: ({ focused, color, size }) => {
           if (route.name == "Admisión") {
             return (
-              <Entypo
-                name={focused ? "text-document" : "text-document"}
+              <Foundation
+                name={focused ? "clipboard-pencil" : "clipboard-pencil"}
                 size={size}
                 color={color}
               />
             );
-          }
-          else if (route.name == "Home") {
+          } else if (route.name == "Home") {
             return (
               <FontAwesome5
-              name={focused ? "hospital" : "hospital"}
+                name={focused ? "hospital" : "hospital"}
                 size={size}
                 color={color}
               />
             );
-          }
-          else if (route.name == "Consultas") {
+          } else if (route.name == "Consultas") {
             return (
               <FontAwesome5
                 name={focused ? "book-medical" : "book-medical"}
@@ -105,21 +117,23 @@ export default function MenuPrincipal({route, navigation}) {
                 color={color}
               />
             );
-          } else if (route.name == "Ajustes") {
+          } else if (route.name == "Historial") {
             return (
-              <MaterialIcons
-                name={focused ? "settings" : "settings"}
+              <Entypo
+                name={focused ? "text-document" : "text-document"}
                 size={size}
                 color={color}
               />
             );
-          }
-          else if (route.name == "Rehabilitación") {
+          } else if (route.name == "Rehabilitación") {
             return (
-              <FontAwesome5 name={focused ? "hand-holding-medical" : "hand-holding-medical"} size={size}
-              color={color} />
+              <FontAwesome5
+                name={focused ? "hand-holding-medical" : "hand-holding-medical"}
+                size={size}
+                color={color}
+              />
             );
-          }else if (route.name == "Farmacia") {
+          } else if (route.name == "Farmacia") {
             return (
               <FontAwesome5
                 name={focused ? "pills" : "pills"}
@@ -127,8 +141,7 @@ export default function MenuPrincipal({route, navigation}) {
                 color={color}
               />
             );
-          }
-          else if (route.name == "Vacunación") {
+          } else if (route.name == "Vacunación") {
             return (
               <Fontisto
                 name={focused ? "injection-syringe" : "injection-syringe"}
@@ -136,7 +149,7 @@ export default function MenuPrincipal({route, navigation}) {
                 color={color}
               />
             );
-          }else if (route.name == "Laboratorio") {
+          } else if (route.name == "Laboratorio") {
             return (
               <Fontisto
                 name={focused ? "test-tube" : "test-tube"}
@@ -157,11 +170,7 @@ export default function MenuPrincipal({route, navigation}) {
         },
       })}
     >
-      <Drawer.Screen
-        name="Home"
-        component={PantallaHome}
-        options={{}}
-      />
+      <Drawer.Screen name="Home" component={PantallaHome} options={{}} />
       <Drawer.Screen
         name="Admisión"
         component={PantallaPacientes}
@@ -172,7 +181,7 @@ export default function MenuPrincipal({route, navigation}) {
       <Drawer.Screen name="Laboratorio" component={PantallaLaboratorio} />
       <Drawer.Screen name="Farmacia" component={PantallaFarmacia} />
       <Drawer.Screen name="Vacunación" component={PantallaVacunacion} />
-      <Drawer.Screen name="Ajustes" component={PantallaAjustes} />
+      <Drawer.Screen name="Historial" component={PantallaHistorial} />
     </Drawer.Navigator>
   );
 }

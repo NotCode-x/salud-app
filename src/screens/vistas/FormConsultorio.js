@@ -9,6 +9,7 @@ import {
   View,
   ScrollView,
   Alert,
+  SafeAreaView
 } from "react-native";
 
 //importamos las funciones genericas
@@ -20,7 +21,7 @@ import { actualizarConsultaPaciente } from "../../functions/UpdateFunctions";
 import { GetPersonalSanitario } from "../../functions/GetFunctions";
 
 //importamos los estilos para esta pantalla
-import { stylesFormConsultorio } from "../../styles/styles";
+import { stylesFormConsultorio, stylesFormRegistrarPaciente } from "../../styles/styles";
 
 /**
  * Para generar códigos de paciente aleatorios utilizaremos el módulo uuidv4
@@ -84,22 +85,21 @@ export default function FormConsultorio({ route, navigation }) {
   return (
     <View style={stylesFormConsultorio.container}>
       <StatusBar style="light" backgroundColor={colors.AppColor} />
-      <View style={stylesFormConsultorio.containerScroll}>
-        <ScrollView
+      <SafeAreaView>
+      <ScrollView
           scrollEnabled={true}
-          style={stylesFormConsultorio.containerForm}
+          style={stylesFormRegistrarPaciente.containerForm}
           contentContainerStyle={{
-            flex: 1,
             justifyContent: "center",
             alignItems: "center",
           }}
         >
-          <Text style={stylesFormConsultorio.fieldText}>Diagnostico</Text>
+          <Text style={stylesFormConsultorio.fieldText}>Primer diagnostico</Text>
           <TextInput
             style={stylesFormConsultorio.inputText}
             multiline={true}
             numberOfLines={4}
-            placeholder="Dar diagnóstico..........................................."
+            placeholder="Redactar primer diagnóstico..........................................."
             onChangeText={(text) =>
               actualizarCampos("diagnosticoConsulta", text)
             }
@@ -140,7 +140,7 @@ export default function FormConsultorio({ route, navigation }) {
             <Text style={{ color: "#fff" }}>Atender</Text>
           </TouchableOpacity>
         </ScrollView>
-      </View>
+      </SafeAreaView>
     </View>
   );
 }

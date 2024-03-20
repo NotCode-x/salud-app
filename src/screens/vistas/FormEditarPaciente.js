@@ -20,8 +20,8 @@ import { checkFormFields } from "../../functions/generic";
 
 import { GetTiposPaciente } from "../../functions/GetFunctions";
 
-//importamos las funciones post
-import { registrarPaciente } from "../../functions/PostFunctions";
+//importamos las funciones update
+import { actualizarPaciente } from "../../functions/UpdateFunctions";
 
 //importamos los estilos para esta pantalla
 import {
@@ -53,19 +53,37 @@ import { colors } from "../../styles/colors";
 //creamos el componente del formulario de registro del paciente al cual llamamos FormRegistrarPaciente
 //Esta es la pantalla del formulario para paciente nuevos
 
-export default function FormRegistrarPaciente({ route, navigation }) {
+export default function FormEditarPaciente({ route, navigation }) {
+
+  //datos actuales del paciente
+  const {
+    idPaciente,
+    nombrePaciente,
+    apellidosPaciente,
+    fechaNacimientoPaciente,
+    sexoPaciente,
+    pesoPaciente,
+    alturaPaciente,
+    telefonoPaciente,
+    direccionPaciente,
+    alergiaPaciente,
+    nacionalidadPaciente,
+    tipoPaciente
+  } = route.params;
+
   const [datosPaciente, setDatosPaciente] = useState({
-    nombre: "",
-    apellidos: "",
-    fechaNacimiento: "",
-    sexo: "",
-    peso: "",
-    altura: "",
-    telefono: "",
-    direccion: "",
-    alergia: "",
-    nacionalidad: "",
-    codigoTipoPaciente: ''
+    idPaciente: idPaciente,
+    nombre: nombrePaciente,
+    apellidos: apellidosPaciente,
+    fechaNacimiento: fechaNacimientoPaciente,
+    sexo: sexoPaciente,
+    peso: pesoPaciente,
+    altura: alturaPaciente,
+    telefono: telefonoPaciente,
+    direccion: direccionPaciente,
+    alergia: alergiaPaciente,
+    nacionalidad: nacionalidadPaciente,
+    codigoTipoPaciente: tipoPaciente
   });
 
   //variable para almacenar los tipos de paciente que hay en la base de datos
@@ -74,15 +92,16 @@ export default function FormRegistrarPaciente({ route, navigation }) {
   const actualizarCampos = (name, value) =>
     setDatosPaciente({ ...datosPaciente, [name]: value });
 
-  useEffect(() => {
-    const cargarFnc = async () => {
-      let res = await GetTiposPaciente();
+    useEffect(() => {
+      const cargarFnc = async () => {
+        let res = await GetTiposPaciente();
+  
+        setTiposPaciente(res);
+      };
+  
+      cargarFnc();
+    }, []);
 
-      setTiposPaciente(res);
-    };
-
-    cargarFnc();
-  }, []);
   return (
     <View style={stylesFormRegistrarPaciente.container}>
       <StatusBar style="light" backgroundColor={colors.AppColor} />
@@ -98,22 +117,25 @@ export default function FormRegistrarPaciente({ route, navigation }) {
           <Text style={stylesFormRegistrarPaciente.fieldText}>Nombre</Text>
           <TextInput
             style={stylesFormRegistrarPaciente.inputText}
+            defaultValue={nombrePaciente}
             placeholder="Nombre del paciente"
             onChangeText={(text) => actualizarCampos("nombre", text)}
           />
           <Text style={stylesFormRegistrarPaciente.fieldText}>Apellidos</Text>
           <TextInput
             style={stylesFormRegistrarPaciente.inputText}
+            defaultValue={apellidosPaciente}
             placeholder="Apellidos del paciente"
             onChangeText={(text) => actualizarCampos("apellidos", text)}
           />
-          {tiposPaciente != "" ? (
+
+{tiposPaciente != "" ? (
             <View style={{width: '94%' }}>
               <Text style={stylesFormRegistrarPaciente.fieldText}>
                 Tipo de paciente
               </Text>
               <Picker
-                selectedValue={datosPaciente.codigo}
+                selectedValue={datosPaciente.codigoTipoPaciente}
                 onValueChange={(itemValue, itemIndex) => {
                   actualizarCampos("codigoTipoPaciente", itemValue);
                 }}
@@ -129,6 +151,7 @@ export default function FormRegistrarPaciente({ route, navigation }) {
           ) : (
             ""
           )}
+
           <View
             style={{
               width: "100%",
@@ -142,6 +165,7 @@ export default function FormRegistrarPaciente({ route, navigation }) {
               </Text>
               <TextInput
                 style={stylesFormRegistrarPaciente.inputCuatroText}
+                defaultValue={fechaNacimientoPaciente}
                 placeholder="Fecha de nacimiento"
                 onChangeText={(text) =>
                   actualizarCampos("fechaNacimiento", text)
@@ -152,6 +176,7 @@ export default function FormRegistrarPaciente({ route, navigation }) {
               <Text style={stylesFormRegistrarPaciente.fieldText}>Sexo</Text>
               <TextInput
                 style={stylesFormRegistrarPaciente.inputCuatroText}
+                defaultValue={sexoPaciente}
                 placeholder="Sexo del paciente"
                 onChangeText={(text) => actualizarCampos("sexo", text)}
               />
@@ -169,6 +194,7 @@ export default function FormRegistrarPaciente({ route, navigation }) {
               <Text style={stylesFormRegistrarPaciente.fieldText}>Peso</Text>
               <TextInput
                 style={stylesFormRegistrarPaciente.inputCuatroText}
+                defaultValue={pesoPaciente}
                 keyboardType="number-pad"
                 placeholder="Peso del paciente"
                 onChangeText={(text) => actualizarCampos("peso", text)}
@@ -178,6 +204,7 @@ export default function FormRegistrarPaciente({ route, navigation }) {
               <Text style={stylesFormRegistrarPaciente.fieldText}>Altura</Text>
               <TextInput
                 style={stylesFormRegistrarPaciente.inputCuatroText}
+                defaultValue={alturaPaciente}
                 keyboardType="number-pad"
                 placeholder="Altura del paciente"
                 onChangeText={(text) => actualizarCampos("altura", text)}
@@ -198,6 +225,7 @@ export default function FormRegistrarPaciente({ route, navigation }) {
               </Text>
               <TextInput
                 style={stylesFormRegistrarPaciente.inputCuatroText}
+                defaultValue={telefonoPaciente}
                 keyboardType="number-pad"
                 placeholder="Teléfono del paciente"
                 onChangeText={(text) => actualizarCampos("telefono", text)}
@@ -209,6 +237,7 @@ export default function FormRegistrarPaciente({ route, navigation }) {
               </Text>
               <TextInput
                 style={stylesFormRegistrarPaciente.inputCuatroText}
+                defaultValue={direccionPaciente}
                 keyboardType="number-pad"
                 placeholder="Dirección del paciente"
                 onChangeText={(text) => actualizarCampos("direccion", text)}
@@ -219,6 +248,7 @@ export default function FormRegistrarPaciente({ route, navigation }) {
           <Text style={stylesFormRegistrarPaciente.fieldText}>Alergias</Text>
           <TextInput
             style={stylesFormRegistrarPaciente.inputText}
+            defaultValue={alergiaPaciente}
             placeholder="Alergias del paciente"
             onChangeText={(text) => actualizarCampos("alergia", text)}
           />
@@ -227,6 +257,7 @@ export default function FormRegistrarPaciente({ route, navigation }) {
           </Text>
           <TextInput
             style={stylesFormRegistrarPaciente.inputText}
+            defaultValue={nacionalidadPaciente}
             placeholder="Nacionalidad"
             onChangeText={(text) => actualizarCampos("nacionalidad", text)}
           />
@@ -234,19 +265,19 @@ export default function FormRegistrarPaciente({ route, navigation }) {
           <TouchableOpacity
             style={stylesFormRegistrarPaciente.buttonRegister}
             onPress={async () => {
-              console.log("Datos a registrar: ", datosPaciente);
+              console.log("Datos a actualizar: ", datosPaciente);
               let res = checkFormFields(datosPaciente);
 
               if (res > 0) {
                 Alert.alert("Error", `Hay ${res} campos vacíos`);
               } else {
-                let res = await registrarPaciente(datosPaciente);
+                let res = await actualizarPaciente(datosPaciente);
 
                 if (res === 1) {
                   navigation.goBack();
-                  Alert.alert("Success", "Paciente registrado con éxito!");
+                  Alert.alert("Success", "Datos del paciente actualizados");
                 } else {
-                  Alert.alert("Failed", "Paciente no registrado!");
+                  Alert.alert("Failed", "Error al guardar!");
                 }
               }
             }}

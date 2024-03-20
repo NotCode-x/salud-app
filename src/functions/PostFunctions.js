@@ -34,7 +34,7 @@ export const registrarPaciente = async (obj) => {
   let req = await axios.post(
     `http://${localIpServer}/salud-backend/register_functions/registrar_paciente.php`,
     {
-      codigo: obj.codigo,
+      codigo: obj.codigoTipoPaciente,
       nombre: obj.nombre,
       apellidos: obj.apellidos,
       fechaNacimiento: obj.fechaNacimiento,
@@ -76,6 +76,36 @@ export const registrarCita = async (obj) => {
       fecha: obj.fecha,
       hora: obj.hora,
       tipoCita: obj.tipoCita,
+    },
+    {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    }
+  );
+
+  console.log("XD: ", req.data);
+
+  //validamos la respuesta del servidor
+  if (req.data == 1) {
+    return 1;
+  } else {
+    return 0;
+  }
+};
+
+export const registrarConsulta = async (obj) => {
+  //recuperamos el parametro donde se guarda la ip del servidor local
+  let localIpServer = await SecureStore.getItemAsync("ipLocal");
+  
+  console.log("Datos a enviar: ", obj);
+
+  let req = await axios.post(
+    `http://${localIpServer}/salud-backend/register_functions/registrar_consulta.php`,
+    {
+      codigoPaciente: obj.codigoPaciente,
+      codigoMedico: obj.codigoMedico
+      
     },
     {
       headers: {
@@ -168,7 +198,6 @@ export const registrarCompraMedicamento = async (obj, obj1) => {
     {
       nombreMedicina: obj.datosMedicina.n,
       cantidad: parseInt(obj.cantidad),
-      precioManual: obj.precioManual,
       nombrePersonal: obj1.data.n,
       codigoPersonal: obj1.data.c,
       stock: parseInt(obj.datosMedicina.stock),
@@ -186,6 +215,41 @@ export const registrarCompraMedicamento = async (obj, obj1) => {
   //
 
   console.log("XD: ", req.data);
+
+  //validamos la respuesta del servidor
+  if (req.data == 1) {
+    return 1;
+  } else {
+    return 0;
+  }
+};
+
+export const registrarVacunacion = async (obj) => {
+  //recuperamos el parametro donde se guarda la ip del servidor local
+  let localIpServer = await SecureStore.getItemAsync("ipLocal");
+  console.log("Datos a registrar: ", obj);
+
+  let req = await axios.post(
+    `http://${localIpServer}/salud-backend/register_functions/registrar_vacunacion.php`,
+    {
+      codigoAuxiliar: obj.data.c,
+      codigoPaciente: obj.codigoPaciente,
+      fechaVisita: obj.fechaVisita,
+      vacunas: obj.vacunas,
+      nombrePadre: obj.nombrePadre,
+      nombreMadre: obj.nombreMadre,
+      direccion: obj.direccion,
+      telefono: obj.telefono,
+    },
+    {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    }
+  );
+
+  console.log("query: ", req.data)
+
 
   //validamos la respuesta del servidor
   if (req.data == 1) {

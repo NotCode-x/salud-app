@@ -31,7 +31,8 @@ import {
   AntDesign,
   MaterialIcons,
   Fontisto,
-  SimpleLineIcons
+  SimpleLineIcons,
+  Foundation
 } from "@expo/vector-icons";
 
 //importamos los estilos de esta pantalla
@@ -90,7 +91,7 @@ export default function PantallaHome({ route, navigation }) {
       <View style={stylesPantallaHome.containerOpciones}>
         <View style={stylesPantallaHome.containerBotones}>
           <TouchableOpacity style={stylesPantallaHome.botonOpcion} onPress={() => navigation.navigate('Admisión')}>
-            <Entypo name="text-document" size={80} color={colors.AppColor} />
+            <Foundation name= "clipboard-pencil" size={80} color={colors.AppColor} />
 
             <Text style={stylesPantallaHome.textoOpciones}>Admisión</Text>
           </TouchableOpacity>

@@ -3,9 +3,10 @@
 export const checkFormFields = (obj) => {
 
     let n = 0;
-    Object.values(obj).forEach( val => {
+    Object.values(obj).forEach( (val, i) => {
 
         if(val == ''){
+            console.log('Campo vacío: ', val, i)
             n++;
         }
     })

@@ -26,7 +26,7 @@ import {
 } from "@expo/vector-icons";
 
 //importamos la funcion para mostrar todos los pacientes
-import { GetAllPatients } from "../../functions/GetFunctions";
+import { GetAllPatients, GetCitasVacunacion } from "../../functions/GetFunctions";
 
 //importamos los estilos de esta pantalla
 import { stylesScreenPacientes } from "../../styles/styles";
@@ -49,18 +49,24 @@ export default function PantallaVacunacion({ route, navigation }) {
   useEffect(() => {
     //Esta función verifica la conexión a la base de datos gestion_hospitalaria
     const cargarFnc = async () => {
-      let res = await GetAllPatients();
+      let res = await GetCitasVacunacion();
       setPacientes(res);
-      //let req = await axios.get("http://192.168.0.105/salud-backend/index.php")
-
-      //mostramos el resultado de la petición con axios en consola
-      //setConnection(req.data)
-      //console.log("Res: ", req.data)
     };
 
     //ejecutamos la función cargarFnc() en useEffect para que sea lo primero en ejecutarse al cargarse la vista
     cargarFnc();
-  });
+  }, []);
+
+
+  //useLayaoutEffect se utiliza para recargar la pagina al entrar en el
+  React.useLayoutEffect(() => {
+    const unsubscribe = navigation.addListener("focus", async () => {
+      let res = await GetCitasVacunacion();
+      setPacientes(res);
+    });
+
+    return unsubscribe;
+  }, []);
 
   return (
     <View style={stylesScreenPacientes.container}>
@@ -68,18 +74,9 @@ export default function PantallaVacunacion({ route, navigation }) {
 
       <View style={stylesScreenPacientes.containerSearch}>
         <TextInput
-          style={stylesScreenPacientes.inputSearch}
+          style={stylesScreenPacientes.inputSearchDos}
           placeholder="Buscar paciente..."
         />
-        <TouchableOpacity
-          style={stylesScreenPacientes.buttonAdd}
-          onPress={() => {
-            //En esta linea lo que hacemos es navegar a otra pantalla (la pantalla del formulario de registro) utilizando el objeto navigation y su método navigate
-            navigation.navigate("FormRegistrarPaciente");
-          }}
-        >
-          <Ionicons name="person-add" size={30} />
-        </TouchableOpacity>
       </View>
 
       {pacientes == "" ? (
@@ -88,10 +85,16 @@ export default function PantallaVacunacion({ route, navigation }) {
         <FlatList
           data={pacientes}
           style={stylesScreenPacientes.flatListStyle}
+          contentContainerStyle={{
+            justifyContent: "center",
+            alignItems: "center",
+            paddingTop: 10,
+          paddingBottom: 50
+          }}
           renderItem={({ item, index }) => {
             return (
-              <TouchableOpacity style={stylesScreenPacientes.ListItemView} onPress={() => navigation.navigate('PantallaRevisarCita', item)}>
-                <Text style={stylesScreenPacientes.idItem}>{item.idPaciente}.</Text>
+              <TouchableOpacity style={stylesScreenPacientes.ListItemView} onPress={() => navigation.navigate('FormVacunacion', item)}>
+                
                 <View style={stylesScreenPacientes.nameItem}>
                   <Text style={stylesScreenPacientes.textItem}>{item.nombrePaciente}</Text>
                   <Text style={stylesScreenPacientes.textItem}>{item.apellidosPaciente}</Text>

@@ -30,7 +30,7 @@ import {
 import { GetAllPatients, GetCitasRehabilitacion } from "../../functions/GetFunctions";
 
 //importamos los estilos de esta pantalla
-import { stylesScreenPacientes } from "../../styles/styles";
+import { stylesScreenPacientes, stylesComunes } from "../../styles/styles";
 
 //importamos axios para probar la conexión con la base de datos para testear
 import axios from "axios";
@@ -57,6 +57,17 @@ export default function PantallaRehabilitacion({ route, navigation }) {
 
     //ejecutamos la función cargarFnc() en useEffect para que sea lo primero en ejecutarse al cargarse la vista
     cargarFnc();
+  }, []);
+
+   //useLayaoutEffect se utiliza para recargar la pagina al entrar en el
+   React.useLayoutEffect(() => {
+    const unsubscribe = navigation.addListener("focus", async () => {
+      let res = await GetCitasRehabilitacion();
+
+      setCitasRehabilication(res);
+    });
+
+    return unsubscribe;
   }, []);
 
   return (
@@ -86,29 +97,15 @@ export default function PantallaRehabilitacion({ route, navigation }) {
           data={citasRehabilitacion}
           style={stylesScreenPacientes.flatListStyle}
           contentContainerStyle={{
-            justifyContent: 'center',
-            alignItems: 'center'
+            justifyContent: "center",
+            alignItems: "center",
+            paddingTop: 10,
+          paddingBottom: 50
           }}
           renderItem={({ item, index }) => {
             return (
-              <TouchableOpacity style={stylesScreenPacientes.ListItemView} onPress={() => {
-                //navigation.navigate('PantallaRevisarCita', item)
-                Alert.alert('Confirmar', '¿Desea ir a rehabilitación?',[
-                  {
-                    text: 'Rehabilitar',
-                    onPress: () => {
-                      navigation.navigate('FormRehabilitar', item)
-                    }
-                  },
-                  {
-                    text: 'Cancelar',
-                    onPress: () => {
-                      console.log('nada')
-                    }
-                  }
-                ])
-              }}>
-                <View style={stylesScreenPacientes.ListItemView}>
+              <View style={stylesScreenPacientes.ListItemView} >
+                <View style={stylesScreenPacientes.containerDosBotones}>
                 <View style={stylesScreenPacientes.nameItem}>
                   <Text style={stylesScreenPacientes.textItem}>
                     {item.nombrePaciente}
@@ -123,15 +120,29 @@ export default function PantallaRehabilitacion({ route, navigation }) {
                   </TouchableOpacity>
                   <TouchableOpacity
                   style={stylesComunes.botonAccess}
-                    onPress={() =>
-                      navigation.navigate("PantallaRevisarCita", item)
-                    }
+                  onPress={() => {
+                    //navigation.navigate('PantallaRevisarCita', item)
+                    Alert.alert('Confirmar', '¿Desea ir a rehabilitación?',[
+                      {
+                        text: 'Rehabilitar',
+                        onPress: () => {
+                          navigation.navigate('FormRehabilitar', item)
+                        }
+                      },
+                      {
+                        text: 'Cancelar',
+                        onPress: () => {
+                          console.log('nada')
+                        }
+                      }
+                    ])
+                  }}
                   >
-                    <Text style={stylesComunes.textoBotons}>Concertar cita</Text>
+                    <Text style={stylesComunes.textoBotons}>Rehabilitar</Text>
                   </TouchableOpacity>
                 </View>
               </View>
-              </TouchableOpacity>
+              </View>
             );
           }}
           numColumns={1}

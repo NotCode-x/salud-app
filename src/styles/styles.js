@@ -48,7 +48,7 @@ export const stylesScreenPacientes = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
-    justifyContent: "space-around",
+    justifyContent: "flex-start",
   },
 
   containerSearch: {
@@ -65,6 +65,15 @@ export const stylesScreenPacientes = StyleSheet.create({
 
   inputSearch: {
     width: "88%",
+    height: "70%",
+    borderWidth: 1,
+    borderRadius: 10,
+    borderColor: "#aebab6",
+    padding: 6,
+  },
+
+  inputSearchDos: {
+    width: "100%",
     height: "70%",
     borderWidth: 1,
     borderRadius: 10,
@@ -91,23 +100,37 @@ export const stylesScreenPacientes = StyleSheet.create({
   },
 
   ListItemView: {
-    width: "92%",
-    height: 'auto',
+    width: "90%",
+    height: "auto",
     borderColor: "#c2c2c2",
-    justifyContent: 'space-around',
+    justifyContent: "space-around",
     padding: 30,
     marginBottom: 10,
     borderRadius: 15,
     elevation: 8,
     shadowColor: "#000",
     shadowOpacity: 0.2,
-    backgroundColor: '#fff'
+    backgroundColor: "#fff",
+  },
+
+  ListItemViewDos: {
+    width: windowWidth - 50,
+    height: "auto",
+    borderColor: "#c2c2c2",
+    justifyContent: "space-around",
+    padding: 30,
+    marginBottom: 10,
+    borderRadius: 15,
+    elevation: 8,
+    shadowColor: "#000",
+    shadowOpacity: 0.2,
+    backgroundColor: "#fff",
   },
 
   nameItem: {
     flexDirection: "row",
-    justifyContent: 'center',
-    marginBottom: 10
+    justifyContent: "center",
+    marginBottom: 10,
   },
   textItem: {
     fontSize: 18,
@@ -117,7 +140,7 @@ export const stylesScreenPacientes = StyleSheet.create({
   textApellido: {
     fontSize: 18,
     fontWeight: "400",
-    marginLeft: 5
+    marginLeft: 5,
   },
 
   idItem: {
@@ -137,7 +160,7 @@ export const stylesScreenConsultas = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
-    justifyContent: "space-around",
+    justifyContent: "flex-start",
   },
 
   containerSearch: {
@@ -153,6 +176,24 @@ export const stylesScreenConsultas = StyleSheet.create({
   },
 
   inputSearch: {
+    width: "88%",
+    height: "70%",
+    borderWidth: 1,
+    borderRadius: 10,
+    borderColor: "#aebab6",
+    padding: 6,
+  },
+
+  inputSearchDos: {
+    width: "100%",
+    height: "70%",
+    borderWidth: 1,
+    borderRadius: 10,
+    borderColor: "#aebab6",
+    padding: 6,
+  },
+
+  inputDosSearch: {
     width: "88%",
     height: "70%",
     borderWidth: 1,
@@ -178,15 +219,21 @@ export const stylesScreenConsultas = StyleSheet.create({
   flatListStyle: {
     width: windowWidth,
     padding: 10,
+    
   },
 
   ListItemView: {
-    width: "100%",
+    width: windowWidth - 50,
     borderBottomWidth: 1,
     borderBottomColor: "#c2c2c2",
     flexDirection: "column",
     padding: 30,
     marginBottom: 10,
+    elevation: 8,
+    shadowColor: "#000",
+    shadowOpacity: 0.2,
+    backgroundColor: "#fff",
+    borderRadius: 10
   },
 
   nameItem: {
@@ -248,14 +295,19 @@ export const stylesFormRegistrarPaciente = StyleSheet.create({
   inputCuatroText: {
     width: "90%",
     height: windowHeight / 15,
-    borderWidth: 1,
+    borderWidth: 2,
     borderRadius: 10,
     borderColor: "#aebab6",
     marginTop: 10,
     padding: 6,
+    
   },
 
-  containerCuatroText:{ width: "50%", alignItems: 'center' },
+  containerCuatroText: {
+    width: "50%",
+    alignItems: "center",
+    
+  },
 
   inputText: {
     width: "95%",
@@ -275,12 +327,20 @@ export const stylesFormRegistrarPaciente = StyleSheet.create({
     marginBottom: 10,
   },
   fieldText: {
-    width: '100%',
+    width: "100%",
     fontSize: 16,
     fontWeight: "bold",
     marginTop: 20,
-    textAlign: 'left',
-    paddingLeft: 10
+    textAlign: "left",
+    paddingLeft: 10,
+  },
+  fieldDosText: {
+    width: "100%",
+    fontSize: 20,
+    fontWeight: "bold",
+    marginTop: 20,
+    textAlign: "left",
+    paddingLeft: 10,
   },
   inputDescripcion: {
     width: "88%",
@@ -326,9 +386,19 @@ export const stylesFormLaboratorio = StyleSheet.create({
     padding: 6,
   },
 
+  inputTresText: {
+    width: "88%",
+    height: windowHeight / 20,
+    borderWidth: 1,
+    borderRadius: 10,
+    borderColor: "#aebab6",
+    marginTop: 10,
+    padding: 6,
+  },
+
   inputResultados: {
     width: "88%",
-    height: windowHeight / 4,
+    height: windowHeight / 6,
     borderWidth: 1,
     borderRadius: 10,
     borderColor: "#aebab6",
@@ -338,11 +408,12 @@ export const stylesFormLaboratorio = StyleSheet.create({
   },
 
   buttonRegister: {
-    backgroundColor: "#000",
+    backgroundColor: colors.AppColor,
     padding: 15,
     borderRadius: 10,
-    marginTop: 15,
+    marginTop: 30,
     marginBottom: 10,
+    alignItems: 'center'
   },
   fieldText: {
     fontSize: 16,
@@ -405,13 +476,13 @@ export const stylesPantallaHome = StyleSheet.create({
     height: windowHeight,
     justifyContent: "space-between",
     alignItems: "center",
-    backgroundColor: '#fff'
+    backgroundColor: "#fff",
   },
   containerImagenes: {
     width: windowWidth,
     height: "32%",
     alignItems: "center",
-    marginTop: 10
+    marginTop: 10,
   },
 
   containerOpciones: {
@@ -462,36 +533,44 @@ export const stylesPantallaHome = StyleSheet.create({
 
 //estilos generales o comunes
 export const stylesComunes = StyleSheet.create({
-    containerDosBotones:{
-        width: '100%',
-        height: 'auto',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center'
-    },
+  containerDosBotones: {
+    width: "100%",
+    height: "auto",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
 
-    botonAccess:{
-        width: '45%',
-        backgroundColor: '#36948c',
-        padding: 10,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 10
-    },
+  botonAccess: {
+    width: "45%",
+    backgroundColor: "#36948c",
+    padding: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 10,
+  },
 
-    
-    botonEditar:{
-        width: '45%',
-        backgroundColor: colors.botonEditar,
-        padding: 10,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 10
-    },
+  botonEditar: {
+    width: "45%",
+    backgroundColor: colors.botonEditar,
+    padding: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 10,
+  },
 
-    textoBotons:{
-        fontSize: 15,
-        color: '#fff',
-        fontWeight: 'bold'
-    }
-})
+  textoBotons: {
+    fontSize: 15,
+    color: "#fff",
+    fontWeight: "bold",
+  },
+
+  stylesPicker: {
+    width: "100%",
+    elevation: 8,
+    marginTop: 10,
+    shadowColor: "#000",
+    shadowOpacity: 0.2,
+    backgroundColor: "#fff",
+  },
+});

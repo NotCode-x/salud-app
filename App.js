@@ -168,7 +168,7 @@ function App() {
           }}
         />
 
-<Stack.Screen
+        <Stack.Screen
           name="FormVerHistorialLaboratorio"
           component={FormVerHistorialLaboratorio}
           options={{
@@ -179,8 +179,6 @@ function App() {
             headerTintColor: "#fff",
           }}
         />
-
-
 
         <Stack.Screen
           name="FormVerHistorialConsultas"
@@ -194,7 +192,7 @@ function App() {
           }}
         />
 
-<Stack.Screen
+        <Stack.Screen
           name="FormVerHistorialCitas"
           component={FormVerHistorialCitas}
           options={{
@@ -206,7 +204,7 @@ function App() {
           }}
         />
 
-<Stack.Screen
+        <Stack.Screen
           name="FormVerHistorialRehabilitacion"
           component={FormVerHistorialRehabilitacion}
           options={{
@@ -218,7 +216,7 @@ function App() {
           }}
         />
 
-<Stack.Screen
+        <Stack.Screen
           name="FormVerHistorialVacunacion"
           component={FormVerHistorialVacunacion}
           options={{

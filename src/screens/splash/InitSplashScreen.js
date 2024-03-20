@@ -31,7 +31,8 @@ export default function InitSplashScreen({route, navigation}) {
   const conexionLocal = async(ip) => {
      console.log(ip)
      
-    let req = await axios.get(`http://${ip}/salud-backend/index.php`)
+    try{
+      let req = await axios.get(`http://${ip}/salud-backend/index.php`)
       
       //mostramos el resultado de la petición con axios en consola
       setConnection(req.data)
@@ -39,6 +40,9 @@ export default function InitSplashScreen({route, navigation}) {
         //si nos conectamos a la db entonces navegamos al menú principal
         navigation.navigate('MenuPrincipal')
       console.log("Respuesta local: ", req.data)
+    }catch(e){
+      console.log(e)
+    }
 
   }
 

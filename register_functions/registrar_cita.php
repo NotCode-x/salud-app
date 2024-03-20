@@ -8,10 +8,10 @@ $codigoPaciente = $_POST['codigoPaciente'];
 $codigoMedico = $_POST['codigoMedico'];
 $hora = $_POST['hora'];
 $fecha = $_POST['fecha']." ".$hora;
-$tipoCita = $_POST['$tipoCita'];
+$tipoCita = $_POST['tipoCita'];
 
 $consultaInsertarDatos = "INSERT INTO cita (Fecha_Prevista, Cod_Paciente, Cod_Medico, Tipo_Cita, Estado)
-                                    VALUES('$fecha', '$codigoPaciente', '$codigoMedico', '$tipoCita', 'En proceso')";
+                                    VALUES('$fecha', '$codigoPaciente', '$codigoMedico', '$tipoCita', 'En espera')";
 
 
 $ejecutarConsulta = mysqli_query($connection, $consultaInsertarDatos);

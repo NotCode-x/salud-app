@@ -19,6 +19,15 @@ $json = array();
 			'idPaciente' => $row['Codigo_paciente'],
 			'nombrePaciente' => $row['Nombre_Paciente'],
             'apellidosPaciente' => $row['Apellidos_Paciente'],
+			'fechaNacimientoPaciente' => $row['Fecha_Nacimiento'],
+			'sexoPaciente' => $row['Sexo'],
+			'pesoPaciente' => $row['Peso'],
+			'alturaPaciente' => $row['altura'],
+			'telefonoPaciente' => $row['Telefono'],
+			'direccionPaciente'=> $row['Direccion'],
+			'alergiaPaciente'=> $row['Alergia'],
+			'nacionalidadPaciente'=> $row['Nacionalidad'],
+			'tipoPaciente' => $row['Cod_TipoPaciente'],
 		);
 	}
 

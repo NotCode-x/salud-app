@@ -2,7 +2,7 @@
 
 include("../cors.php");
 include('../connect_db.php');
-include('functions/functions.php');
+include('../functions/functions.php');
 
 
 $idConsulta = $_POST['idConsulta'];

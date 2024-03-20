@@ -10,7 +10,6 @@ $nombreMedicina = $_POST['nombreMedicina'];
 $codigoFarmaceutico = $_POST['codigoPersonal'];
 $cantidadStock = $_POST['stock'];
 $cantidadCompra = $_POST['cantidad'];
-$precioManual = $_POST['precioManual'];
 $precioUnitario = $_POST['precioUnitario'];
 $codigoFarmacia = $_POST['codigoFarmacia'];
 

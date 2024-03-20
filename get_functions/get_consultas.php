@@ -5,9 +5,11 @@ include("../cors.php");
 include('../connect_db.php');
 
 //hacemos una consulta para obtener todos los datos de la tabla pacientes
-$allPacientes = "SELECT consultas.*, paciente.Nombre_Paciente AS Nombre, paciente.Codigo_paciente AS Codigo_paciente, paciente.Apellidos_Paciente AS Apellidos_Paciente
+$allPacientes = "SELECT cita.*, consultas.*, paciente.Nombre_Paciente AS Nombre, paciente.Codigo_paciente AS Codigo_paciente, paciente.Apellidos_Paciente AS Apellidos_Paciente
                     FROM consultas
-                    INNER JOIN paciente ON consultas.Cod_paciente = paciente.Codigo_paciente";
+                    INNER JOIN paciente ON consultas.Cod_paciente = paciente.Codigo_paciente
+                    INNER JOIN cita ON consultas.Cod_paciente = cita.Cod_Paciente WHERE cita.Tipo_Cita = 'Consultorio' ORDER BY cita.Fecha_Prevista asc
+                    ";
 
 $ejecutarConsulta = mysqli_query( $connection, $allPacientes );
 

@@ -1,11 +1,9 @@
 <?php
 
-
-
-function agregarPacienteLaboratorio($id, $pruebas, $conn)
+function agregarPacienteLaboratorio($id, $cod, $pruebas, $conn)
 {
-    $consulta = "INSERT INTO laboratorio (idConsulta, Cod_TecnicoLaboratorio, Pruebas)
-                                    VALUES('$id', 'PMED1', '$pruebas')";
+    $consulta = "INSERT INTO laboratorio (Numero_Consulta, Cod_TecnicoLaboratorio, Codigo_Laboratorio, Pruebas)
+                                    VALUES('$id', 'PMED1', '$cod', '$pruebas')";
 
     $ejecutarConsulta = mysqli_query($conn, $consulta);
 }
